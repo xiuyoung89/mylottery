@@ -1,0 +1,1229 @@
+.mask {
+  position: fixed;
+  width: 100%;
+  height: 100%;
+  left: 0;
+  top: 0;
+  background: rgba(0, 0, 0, 0.8);
+  z-index: 1000; }
+  .mask.notice-mask {
+    display: none; }
+  .mask .close-btn {
+    display: inline-block;
+    position: absolute;
+    height: 30px;
+    width: 30px;
+    right: 10px;
+    top: 10px;
+    opacity: .6;
+    transition: all 0.6s;
+    cursor: pointer; }
+    .mask .close-btn:hover {
+      transform: rotate(360deg);
+      opacity: 1; }
+    .mask .close-btn:before {
+      content: "";
+      width: 3px;
+      height: 100%;
+      left: 50%;
+      top: 0;
+      -webkit-transform: translateX(-50%) rotate(45deg);
+      -ms-transform: translateX(-50%) rotate(45deg);
+      transform: translateX(-50%) rotate(45deg);
+      background-color: #2e3943;
+      position: absolute; }
+    .mask .close-btn:after {
+      content: "";
+      width: 3px;
+      height: 100%;
+      left: 50%;
+      top: 0;
+      -webkit-transform: translateX(-50%) rotate(-45deg);
+      -ms-transform: translateX(-50%) rotate(-45deg);
+      transform: translateX(-50%) rotate(-45deg);
+      background-color: #2e3943;
+      position: absolute; }
+  .mask .mask-tips {
+    width: 500px;
+    position: fixed;
+    left: 50%;
+    top: 50%;
+    background-color: #FFFFFF;
+    z-index: 101;
+    border-radius: 8px;
+    word-wrap: break-word;
+    text-align: center;
+    margin-left: -250px;
+    transform: translateY(-50%); }
+    .mask .mask-tips h4 {
+      font-size: 30px;
+      color: #333333;
+      text-align: center;
+      padding-top: 20px;
+      margin-bottom: 30px;
+      font-weight: 600; }
+    .mask .mask-tips p {
+      font-size: 20px;
+      text-align: center;
+      line-height: 30px;
+      color: #333333;
+      margin-bottom: 35px;
+      padding-left: 30px;
+      padding-right: 30px; }
+    .mask .mask-tips a {
+      text-decoration: none;
+      display: block;
+      font-size: 24px;
+      color: #fead00;
+      text-align: center;
+      font-weight: 500;
+      height: 60px;
+      line-height: 60px;
+      border-top: 2px solid #e8e8e8; }
+
+.dapp {
+  font-family: "Mcrosoft YaHei";
+  background-image: url("../img/bd-bg.png");
+  background-repeat: repeat; }
+  .dapp * {
+    list-style: none; }
+  .dapp header {
+    width: 100%;
+    height: 65px;
+    background: #fff;
+    color: #333;
+    box-shadow: 0px 5px 10px #999999; }
+    .dapp header .content {
+      height: 65px;
+      width: 1200px;
+      margin: 0 auto; }
+      .dapp header .content .logo {
+        float: left;
+        position: relative;
+        overflow: hidden; }
+        .dapp header .content .logo a {
+          display: inline-block;
+          width: 157px;
+          height: 65px;
+          background-image: url(../imgs/dapp-logo.png);
+          background-repeat: no-repeat;
+          background-size: 100%;
+          background-position: center center; }
+      .dapp header .content .nav {
+        float: right;
+        padding-top: 14px;
+        padding-right: 0; }
+        .dapp header .content .nav .nav-list {
+          float: left;
+          overflow: hidden; }
+          .dapp header .content .nav .nav-list li {
+            float: left;
+            margin-right: 40px; }
+            .dapp header .content .nav .nav-list li a {
+              display: inline-block;
+              padding: 10px 0;
+              color: #333;
+              text-decoration: none;
+              transition: all 0.5s;
+              border-bottom: 1px solid #fff;
+              font-size: 16px; }
+              .dapp header .content .nav .nav-list li a:hover {
+                color: #c71b1b;
+                border-bottom: 2px solid #c71b1b; }
+        @media screen and (max-width: 1340px) {
+          .dapp header .content .nav .lang {
+            margin-right: 0 !important; } }
+        .dapp header .content .nav .lang {
+          float: left;
+          width: 40px;
+          height: 24px;
+          position: relative;
+          margin-top: 10px;
+          border: 1px solid #333;
+          padding-left: 5px; }
+          .dapp header .content .nav .lang span {
+            width: 40px;
+            display: inline-block;
+            color: #333;
+            position: relative; }
+            .dapp header .content .nav .lang span:after {
+              content: '';
+              display: block;
+              border: 4px solid transparent;
+              border-top: 4px solid #333;
+              width: 0;
+              height: 0;
+              position: absolute;
+              right: 10px;
+              top: 10px; }
+          .dapp header .content .nav .lang ul {
+            display: none;
+            position: absolute;
+            top: 21px;
+            left: -1px;
+            border: 1px solid #333;
+            color: #fff;
+            width: 40px;
+            padding: 0;
+            background-color: #c71b1b; }
+            .dapp header .content .nav .lang ul li {
+              text-align: center;
+              line-height: 30px;
+              cursor: pointer; }
+              .dapp header .content .nav .lang ul li:hover {
+                background: #e45959; }
+          .dapp header .content .nav .lang:hover ul {
+            display: block; }
+  @media (min-width: 1200px) {
+    .dapp .container-fluid {
+      width: 1200px; } }
+  .dapp .container .tips-box {
+    color: #fff;
+    border-bottom: 2px solid #fead00;
+    padding: 20px 0; }
+    .dapp .container .tips-box .tips {
+      padding: 0; }
+    .dapp .container .tips-box .tip {
+      display: inline-block;
+      text-align: center;
+      margin-right: 10px; }
+    .dapp .container .tips-box a {
+      text-decoration: none;
+      text-align: center;
+      width: 110px;
+      color: #fff;
+      display: inline-block;
+      padding: 10px 5px;
+      border: 1px solid #fff;
+      border-radius: 4px;
+      transition: all 0.5s; }
+      .dapp .container .tips-box a:hover {
+        color: #fead00;
+        border-color: #fead00; }
+    .dapp .container .tips-box a.active {
+      color: #fead00;
+      border-color: #fead00; }
+    .dapp .container .tips-box .result-box {
+      margin-top: 8px;
+      padding: 0; }
+      .dapp .container .tips-box .result-box span {
+        float: right;
+        padding: 0;
+        line-height: 25px; }
+    .dapp .container .tips-box ul {
+      float: right;
+      text-align: right;
+      padding: 0; }
+    .dapp .container .tips-box li {
+      margin-left: 10px;
+      display: inline-block;
+      width: 25px;
+      height: 25px;
+      text-align: center;
+      line-height: 25px;
+      background: url("../img/ball.png") no-repeat;
+      background-size: cover; }
+  .dapp .container .lottery-box {
+    display: block;
+    color: #fff; }
+    .dapp .container .lottery-box .price-box h4 {
+      line-height: 2; }
+      .dapp .container .lottery-box .price-box h4 span {
+        margin-left: 40px;
+        color: #999;
+        font-size: 14px; }
+    .dapp .container .lottery-box .price-box .choose-price {
+      width: 274px;
+      height: 70px;
+      border: 1px solid #fff;
+      border-radius: 4px; }
+      .dapp .container .lottery-box .price-box .choose-price input {
+        width: 180px;
+        height: 50px;
+        line-height: 50px;
+        background-color: transparent;
+        border: 0;
+        text-align: center; }
+      .dapp .container .lottery-box .price-box .choose-price div {
+        width: 224px;
+        line-height: 70px;
+        font-size: 40px;
+        font-weight: 0;
+        text-align: center; }
+        .dapp .container .lottery-box .price-box .choose-price div:after {
+          content: '';
+          display: block;
+          height: 64px;
+          border-left: 1px solid #fff;
+          position: absolute;
+          right: 0;
+          top: 2px; }
+      .dapp .container .lottery-box .price-box .choose-price span {
+        float: right;
+        line-height: 70px;
+        width: 48px;
+        text-align: center; }
+    .dapp .container .lottery-box .number-box {
+      position: relative;
+      margin-top: 50px; }
+      .dapp .container .lottery-box .number-box h4 {
+        line-height: 2; }
+      .dapp .container .lottery-box .number-box ul {
+        padding: 0; }
+        .dapp .container .lottery-box .number-box ul li {
+          float: left;
+          width: 102px;
+          height: 75px;
+          line-height: 75px;
+          text-align: center;
+          border: 1px solid #fff;
+          border-radius: 4px; }
+          .dapp .container .lottery-box .number-box ul li b {
+            margin-right: 5px;
+            font-size: 50px;
+            font-weight: normal; }
+      .dapp .container .lottery-box .number-box .random-btn {
+        display: inline-block;
+        width: 27px;
+        height: 27px;
+        background: url("../img/random.png") no-repeat;
+        background-size: cover;
+        position: absolute;
+        left: 635px;
+        bottom: -82px;
+        cursor: pointer; }
+    .dapp .container .lottery-box .ok-btn {
+      margin-top: 36px;
+      width: 612px;
+      line-height: 40px;
+      background-color: #fead00;
+      color: #333;
+      text-align: center;
+      border: 0;
+      border-radius: 4px;
+      font-size: 18px;
+      font-weight: 800; }
+    .dapp .container .lottery-box .value-container {
+      position: relative;
+      display: inline-block; }
+      .dapp .container .lottery-box .value-container .input-num {
+        position: absolute;
+        left: 14px;
+        top: 10px;
+        width: 70px;
+        height: 50px;
+        line-height: 50px;
+        background-color: transparent;
+        border: 0;
+        text-align: center;
+        font-size: 50px; }
+      .dapp .container .lottery-box .value-container i {
+        cursor: pointer;
+        position: absolute;
+        right: 6px;
+        display: inline-block;
+        width: 0;
+        height: 0;
+        border-left: 6px solid transparent;
+        border-right: 6px solid transparent; }
+      .dapp .container .lottery-box .value-container .up {
+        top: 16px;
+        border-bottom: 12px solid #fead00; }
+      .dapp .container .lottery-box .value-container .down {
+        bottom: 16px;
+        border-top: 12px solid #fead00; }
+    .dapp .container .lottery-box .expect-income h4 {
+      color: #fead00; }
+      .dapp .container .lottery-box .expect-income h4 a {
+        float: right;
+        color: #999;
+        font-size: 14px; }
+    .dapp .container .lottery-box .expect-income ul {
+      padding: 0;
+      border: 1px solid #fff;
+      border-radius: 4px; }
+      .dapp .container .lottery-box .expect-income ul li {
+        border-bottom: 1px solid #fff;
+        line-height: 40px;
+        padding: 0 20px;
+        transition: all 0.5s; }
+        .dapp .container .lottery-box .expect-income ul li span:last-child {
+          float: right; }
+        .dapp .container .lottery-box .expect-income ul li:last-child {
+          border: 0; }
+        .dapp .container .lottery-box .expect-income ul li:hover {
+          color: #fead00; }
+  .dapp .tabs-nav {
+    margin-top: 40px;
+    width: 100%; }
+    .dapp .tabs-nav ul {
+      width: 1200px;
+      margin: 0 auto;
+      padding: 0; }
+      .dapp .tabs-nav ul li {
+        position: relative;
+        float: left;
+        width: 110px;
+        line-height: 50px;
+        color: #898989;
+        text-align: center;
+        cursor: pointer; }
+        .dapp .tabs-nav ul li:hover {
+          color: #fff; }
+      .dapp .tabs-nav ul li.active {
+        color: #fff;
+        border: 1px solid #fead00;
+        border-bottom: 0; }
+        .dapp .tabs-nav ul li.active:after {
+          content: '';
+          display: block;
+          width: 100%;
+          height: 8px;
+          background: url("../img/bd-bg.png");
+          position: absolute;
+          left: 0;
+          bottom: -4px; }
+
+.tigger-game .container {
+  padding: 65px 0 0px; }
+  .tigger-game .container .number-box {
+    display: inline-block;
+    position: relative;
+    width: 850px;
+    height: 241px;
+    background: url("../img/tigger-box.png") no-repeat;
+    background-size: cover;
+    padding: 10px; }
+    .tigger-game .container .number-box:after {
+      content: '';
+      display: block;
+      width: 828px;
+      height: 53%;
+      background: linear-gradient(to top, rgba(255, 255, 255, 0.3), rgba(255, 255, 255, 0));
+      position: absolute;
+      left: 10px;
+      top: 12px; }
+    .tigger-game .container .number-box .slotMachine {
+      display: inline-block;
+      text-align: center;
+      width: 270px;
+      height: 220px;
+      overflow: hidden;
+      margin-right: 2px; }
+      .tigger-game .container .number-box .slotMachine:last-child {
+        margin: 0; }
+      .tigger-game .container .number-box .slotMachine .slot {
+        width: 270px;
+        height: 220px;
+        background-size: container;
+        background-position: center center;
+        background-repeat: no-repeat; }
+      .tigger-game .container .number-box .slotMachine .slot1 {
+        background-image: url("../img/fruit1.png"); }
+      .tigger-game .container .number-box .slotMachine .slot2 {
+        background-image: url("../img/fruit2.png"); }
+      .tigger-game .container .number-box .slotMachine .slot3 {
+        background-image: url("../img/fruit3.png"); }
+      .tigger-game .container .number-box .slotMachine .slot4 {
+        background-image: url("../img/fruit4.png"); }
+      .tigger-game .container .number-box .slotMachine .slot5 {
+        background-image: url("../img/fruit5.png"); }
+      .tigger-game .container .number-box .slotMachine .slot6 {
+        background-image: url("../img/fruit6.png"); }
+      .tigger-game .container .number-box .slotMachine .slot7 {
+        background-image: url("../img/fruit7.png"); }
+      .tigger-game .container .number-box .slotMachine .slot8 {
+        background-image: url("../img/fruit8.png"); }
+    .tigger-game .container .number-box span {
+      position: absolute;
+      font-size: 200px;
+      top: -30px; }
+      .tigger-game .container .number-box span:nth-child(1) {
+        left: 106px; }
+      .tigger-game .container .number-box span:nth-child(2) {
+        left: 392px; }
+      .tigger-game .container .number-box span:nth-child(3) {
+        left: 663px; }
+  .tigger-game .container .control-btn {
+    position: relative;
+    float: right;
+    padding-top: 30px;
+    margin-right: 50px; }
+    .tigger-game .container .control-btn .reset-btn {
+      position: absolute;
+      right: -31px;
+      top: 33px;
+      padding: 10px;
+      background-color: green;
+      color: #fff;
+      border-radius: 10px;
+      width: 92px;
+      height: 92px; }
+    .tigger-game .container .control-btn .play-btn {
+      position: relative;
+      width: 100px;
+      height: 100px;
+      background: url("../img/tigger-btn1.png") no-repeat;
+      background-size: cover;
+      cursor: pointer; }
+      .tigger-game .container .control-btn .play-btn .roll-btn {
+        position: absolute;
+        left: 50%;
+        top: -50%;
+        width: 50px;
+        height: 100px;
+        margin-left: -25px;
+        background: url("../img/tigger-btn2.png") no-repeat;
+        background-size: cover; }
+      .tigger-game .container .control-btn .play-btn .roll-btn.active {
+        transform: rotate(150deg);
+        transform-origin: bottom; }
+    .tigger-game .container .control-btn .input-box {
+      color: #fff;
+      margin-top: 25px; }
+      .tigger-game .container .control-btn .input-box p {
+        margin-top: 10px; }
+        .tigger-game .container .control-btn .input-box p span {
+          color: #fead00;
+          font-size: 12px; }
+      .tigger-game .container .control-btn .input-box .input-bet {
+        position: relative;
+        width: 132px;
+        height: 50px;
+        border: 1px solid #e1e1e1; }
+      .tigger-game .container .control-btn .input-box input {
+        width: 64px;
+        height: 48px;
+        line-height: 48px;
+        background-color: #202020;
+        font-size: 24px;
+        border: none;
+        padding: 5px 8px; }
+      .tigger-game .container .control-btn .input-box .add-box {
+        position: absolute;
+        right: 0;
+        top: 2px;
+        width: 23px;
+        height: 46px;
+        border-left: 1px solid #e1e1e1; }
+        .tigger-game .container .control-btn .input-box .add-box:after {
+          content: 'ETH';
+          display: block;
+          width: 30px;
+          height: 48px;
+          position: absolute;
+          right: 35px;
+          top: 7px;
+          color: #fff;
+          font-size: 20px; }
+        .tigger-game .container .control-btn .input-box .add-box span {
+          display: block;
+          height: 50%;
+          background: url("../img/tigger-btn3.png") no-repeat;
+          background-position: center center;
+          cursor: pointer; }
+          .tigger-game .container .control-btn .input-box .add-box span:first-child {
+            transform: rotate(180deg); }
+  .tigger-game .container .get-bet {
+    margin-top: 10px;
+    color: #fff; }
+    .tigger-game .container .get-bet p {
+      height: 50px;
+      line-height: 50px; }
+    .tigger-game .container .get-bet p.sending span {
+      display: inline-block;
+      width: 200px;
+      height: 15px;
+      background: url("../img/sending.gif") no-repeat;
+      background-size: 60%;
+      margin: 0; }
+    .tigger-game .container .get-bet span {
+      margin: 0 10px;
+      color: #fead00; }
+    .tigger-game .container .get-bet button {
+      margin-left: 412px;
+      padding: 10px;
+      background-color: green;
+      color: #fff;
+      border-radius: 4px; }
+.tigger-game .show-container {
+  clear: both;
+  padding: 40px 20px;
+  margin: 0 auto;
+  width: 1200px;
+  color: #fff;
+  border: 1px solid #fead00;
+  min-height: 300px; }
+  .tigger-game .show-container table {
+    width: 100%; }
+    .tigger-game .show-container table th {
+      text-align: center;
+      font-size: 14px;
+      font-weight: 0;
+      color: #898989; }
+    .tigger-game .show-container table tr {
+      line-height: 50px;
+      height: 50px;
+      border-bottom: 1px solid #666; }
+    .tigger-game .show-container table td {
+      text-align: center; }
+      .tigger-game .show-container table td:nth-child(4) {
+        padding-top: 10px; }
+    .tigger-game .show-container table tbody tr:hover {
+      background-color: #b17506; }
+    .tigger-game .show-container table span {
+      display: inline-block;
+      width: 50px;
+      height: 24px;
+      background-size: 40%;
+      background-repeat: no-repeat;
+      background-position: center center; }
+    .tigger-game .show-container table span.icon_0 {
+      background-image: url("../img/icon-fruit1.png"); }
+    .tigger-game .show-container table span.icon_1 {
+      background-image: url("../img/icon-fruit2.png"); }
+    .tigger-game .show-container table span.icon_2 {
+      background-image: url("../img/icon-fruit3.png"); }
+    .tigger-game .show-container table span.icon_3 {
+      background-image: url("../img/icon-fruit4.png"); }
+    .tigger-game .show-container table span.icon_4 {
+      background-image: url("../img/icon-fruit5.png"); }
+    .tigger-game .show-container table span.icon_5 {
+      background-image: url("../img/icon-fruit6.png"); }
+    .tigger-game .show-container table span.icon_6 {
+      background-image: url("../img/icon-fruit7.png"); }
+    .tigger-game .show-container table span.icon_7 {
+      background-image: url("../img/icon-fruit8.png"); }
+  .tigger-game .show-container .my-box {
+    display: none; }
+  .tigger-game .show-container .game-rule {
+    display: none; }
+  .tigger-game .show-container .faq-box {
+    display: none; }
+  .tigger-game .show-container .contract-box {
+    display: none; }
+
+.lottery-game .container .get-bet {
+  position: absolute;
+  bottom: -124px;
+  left: 0;
+  clear: both;
+  padding-top: 10px;
+  color: #fff;
+  width: 130%; }
+  .lottery-game .container .get-bet p {
+    height: 25px;
+    line-height: 25px; }
+  .lottery-game .container .get-bet p.sending span {
+    display: inline-block;
+    width: 200px;
+    height: 15px;
+    background: url("../img/sending.gif") no-repeat;
+    background-size: 60%;
+    margin: 0; }
+  .lottery-game .container .get-bet span {
+    margin: 0 10px;
+    color: #fead00; }
+.lottery-game .show-container {
+  clear: both;
+  padding: 40px 20px;
+  margin: 0 auto;
+  width: 1200px;
+  color: #fff;
+  border: 1px solid #fead00;
+  min-height: 300px;
+  margin-bottom: 50px; }
+  .lottery-game .show-container table {
+    width: 100%; }
+    .lottery-game .show-container table th {
+      text-align: center;
+      font-size: 14px;
+      font-weight: 0;
+      color: #898989; }
+    .lottery-game .show-container table tr {
+      line-height: 50px;
+      height: 50px;
+      border-bottom: 1px solid #666; }
+    .lottery-game .show-container table td {
+      text-align: center; }
+    .lottery-game .show-container table tbody tr:hover {
+      background-color: #b17506; }
+    .lottery-game .show-container table span {
+      text-align: center;
+      line-height: 24px;
+      display: inline-block;
+      width: 24px;
+      height: 24px;
+      background-size: 100%;
+      background-repeat: no-repeat;
+      background-position: center center;
+      background-image: url("../img/ball.png"); }
+  .lottery-game .show-container .my-box {
+    display: none; }
+  .lottery-game .show-container .game-rule {
+    display: none; }
+  .lottery-game .show-container .faq-box {
+    display: none; }
+  .lottery-game .show-container .contract-box {
+    display: none; }
+
+.wheel-game .container {
+  margin-bottom: 100px; }
+  .wheel-game .container .wheel-box {
+    position: relative;
+    width: 605px;
+    height: 605px;
+    padding: 0; }
+    .wheel-game .container .wheel-box .get-bet {
+      margin-top: 20px;
+      color: #fff;
+      position: relative; }
+      .wheel-game .container .wheel-box .get-bet p {
+        position: absolute;
+        left: 0;
+        top: 0;
+        width: 100%;
+        height: 25px;
+        line-height: 25px;
+        text-align: center; }
+      .wheel-game .container .wheel-box .get-bet p.sending span {
+        display: inline-block;
+        width: 200px;
+        height: 15px;
+        background: url("../img/sending.gif") no-repeat;
+        background-size: 60%;
+        margin: 0; }
+      .wheel-game .container .wheel-box .get-bet span {
+        margin: 0 10px;
+        color: #fead00; }
+  .wheel-game .container .contro-box {
+    margin-left: 100px;
+    height: 605px;
+    color: #fff; }
+    .wheel-game .container .contro-box .play-two {
+      margin: 220px 0 50px 0; }
+    .wheel-game .container .contro-box .choose-price {
+      width: 288px;
+      height: 70px;
+      border: 1px solid #fff;
+      border-radius: 4px; }
+      .wheel-game .container .contro-box .choose-price .btns {
+        float: left;
+        width: 90px;
+        height: 70px; }
+        .wheel-game .container .contro-box .choose-price .btns b {
+          cursor: pointer;
+          display: inline-block;
+          width: 42px;
+          height: 68px;
+          font-size: 20px;
+          font-weight: 0;
+          line-height: 68px;
+          text-align: center;
+          border-right: 1px solid #fff; }
+          .wheel-game .container .contro-box .choose-price .btns b.active {
+            color: #fead00; }
+      .wheel-game .container .contro-box .choose-price .input-num {
+        float: left;
+        width: 100px;
+        height: 68px;
+        padding: 10px 5px;
+        line-height: 50px;
+        background-color: transparent;
+        border: 0;
+        text-align: center;
+        font-size: 30px;
+        border-right: 1px solid #fff; }
+      .wheel-game .container .contro-box .choose-price .input-value {
+        float: right;
+        position: relative;
+        display: inline-block;
+        width: 130px;
+        line-height: 70px;
+        font-size: 40px;
+        font-weight: 0;
+        text-align: center; }
+        .wheel-game .container .contro-box .choose-price .input-value:after {
+          content: '';
+          display: block;
+          height: 64px;
+          border-left: 1px solid #fff;
+          position: absolute;
+          right: 0;
+          top: 2px; }
+        .wheel-game .container .contro-box .choose-price .input-value input {
+          width: 80px;
+          height: 50px;
+          line-height: 50px;
+          background-color: transparent;
+          border: 0;
+          text-align: center; }
+        .wheel-game .container .contro-box .choose-price .input-value i {
+          cursor: pointer;
+          position: absolute;
+          right: 6px;
+          display: inline-block;
+          width: 0;
+          height: 0;
+          border-left: 6px solid transparent;
+          border-right: 6px solid transparent; }
+        .wheel-game .container .contro-box .choose-price .input-value .up {
+          top: 16px;
+          border-bottom: 12px solid #fead00; }
+        .wheel-game .container .contro-box .choose-price .input-value .down {
+          bottom: 16px;
+          border-top: 12px solid #fead00; }
+      .wheel-game .container .contro-box .choose-price span {
+        float: right;
+        line-height: 70px;
+        width: 48px;
+        text-align: center; }
+    .wheel-game .container .contro-box .play-game {
+      text-decoration: none;
+      display: block;
+      margin: 40px 0 0 40px;
+      width: 180px;
+      height: 100px;
+      border: 1px solid #fead00;
+      color: #fff;
+      border-radius: 10px;
+      text-align: center;
+      line-height: 100px;
+      font-size: 24px;
+      cursor: pointer; }
+      .wheel-game .container .contro-box .play-game:hover {
+        background: #fead00; }
+.wheel-game .show-container {
+  clear: both;
+  padding: 40px 20px;
+  margin: 0 auto;
+  width: 1200px;
+  color: #fff;
+  border: 1px solid #fead00;
+  min-height: 300px;
+  margin-bottom: 50px; }
+  .wheel-game .show-container table {
+    width: 100%; }
+    .wheel-game .show-container table th {
+      text-align: center;
+      font-size: 14px;
+      font-weight: 0;
+      color: #898989; }
+    .wheel-game .show-container table tr {
+      line-height: 50px;
+      height: 50px;
+      border-bottom: 1px solid #666; }
+    .wheel-game .show-container table td {
+      text-align: center; }
+    .wheel-game .show-container table tbody tr:hover {
+      background-color: #b17506; }
+    .wheel-game .show-container table span {
+      text-align: center;
+      line-height: 24px;
+      display: inline-block;
+      width: 24px;
+      height: 24px;
+      background-size: 100%;
+      background-repeat: no-repeat;
+      background-position: center center;
+      background-image: url("../img/ball.png"); }
+  .wheel-game .show-container .my-box {
+    display: none; }
+  .wheel-game .show-container .game-rule {
+    display: none; }
+  .wheel-game .show-container .faq-box {
+    display: none; }
+  .wheel-game .show-container .contract-box {
+    display: none; }
+
+.lottery2-game #main .top-tabs {
+  overflow: hidden; }
+  .lottery2-game #main .top-tabs .tab {
+    padding-top: 50px;
+    text-align: center; }
+    .lottery2-game #main .top-tabs .tab:nth-child(1) span {
+      background-position: -5px 0; }
+    .lottery2-game #main .top-tabs .tab:nth-child(2) span {
+      background-position: -93px 0; }
+    .lottery2-game #main .top-tabs .tab:nth-child(3) span {
+      background-position: -188px 0; }
+  .lottery2-game #main .top-tabs span {
+    display: inline-block;
+    width: 70px;
+    height: 70px;
+    background-image: url("../img/icons.png");
+    background-repeat: no-repeat; }
+  .lottery2-game #main .top-tabs p {
+    color: rgba(255, 255, 255, 0.7);
+    font-size: 12px; }
+  .lottery2-game #main .top-tabs h4 {
+    color: #fead00;
+    font-size: 16px; }
+.lottery2-game #main .game-box .title {
+  margin: 80px auto 50px;
+  height: 100px;
+  background: url("../img/icons.png") no-repeat; }
+.lottery2-game #main .game-box .box {
+  margin-bottom: 40px;
+  border: 1px solid #fff; }
+  .lottery2-game #main .game-box .box i {
+    position: absolute;
+    display: inline-block;
+    width: 38px;
+    height: 27px;
+    border: 4px solid #fead00; }
+    .lottery2-game #main .game-box .box i:nth-child(1) {
+      left: -2px;
+      top: -3px;
+      border-right: 0;
+      border-bottom: 0; }
+    .lottery2-game #main .game-box .box i:nth-child(2) {
+      right: -2px;
+      top: -3px;
+      border-left: 0;
+      border-bottom: 0; }
+    .lottery2-game #main .game-box .box i:nth-child(3) {
+      left: -2px;
+      bottom: -3px;
+      border-right: 0;
+      border-top: 0; }
+    .lottery2-game #main .game-box .box i:nth-child(4) {
+      right: -2px;
+      bottom: -3px;
+      border-left: 0;
+      border-top: 0; }
+  .lottery2-game #main .game-box .box a.btn {
+    padding: 0;
+    border-radius: 0;
+    background-color: #fead00;
+    width: 315px;
+    height: 38px;
+    text-align: center;
+    line-height: 38px;
+    color: #fff;
+    font-size: 13px;
+    position: absolute;
+    left: 50%;
+    bottom: -19px;
+    margin-left: -157.5px;
+    background: linear-gradient(to top, #b66c03, #fead00);
+    border: 0; }
+.lottery2-game #main .talent-game {
+  padding-bottom: 60px;
+  overflow: hidden; }
+  .lottery2-game #main .talent-game .title {
+    background-position: center -87px; }
+  .lottery2-game #main .talent-game .col-md-6 {
+    text-align: center; }
+  .lottery2-game #main .talent-game .box {
+    display: inline-block;
+    position: relative;
+    width: 490px;
+    height: 190px; }
+    .lottery2-game #main .talent-game .box .info {
+      position: absolute;
+      right: 35px;
+      top: 26px; }
+      .lottery2-game #main .talent-game .box .info h4 {
+        text-align: left;
+        color: #fff;
+        font-size: 25px; }
+      .lottery2-game #main .talent-game .box .info em {
+        font-style: normal;
+        font-size: 31px;
+        color: #fff; }
+        .lottery2-game #main .talent-game .box .info em span {
+          color: #fead00; }
+      .lottery2-game #main .talent-game .box .info p {
+        text-align: left;
+        color: #999;
+        margin: 0; }
+      .lottery2-game #main .talent-game .box .info .status {
+        margin-top: 8px;
+        padding-left: 21px;
+        background: url("../img/icons.png") no-repeat;
+        background-position: -393px -1px; }
+    .lottery2-game #main .talent-game .box .boll-box {
+      position: absolute;
+      left: 102px;
+      top: 85px;
+      width: 80px;
+      height: 60px;
+      background: url("../img/icons.png") no-repeat;
+      background-position: -296px 0px; }
+      .lottery2-game #main .talent-game .box .boll-box span {
+        color: #fff;
+        position: absolute; }
+        .lottery2-game #main .talent-game .box .boll-box span:nth-child(1) {
+          left: 18px;
+          top: 25px;
+          transform: rotate(-10deg); }
+        .lottery2-game #main .talent-game .box .boll-box span:nth-child(2) {
+          font-size: 15px;
+          left: 44px;
+          top: 13px;
+          transform: rotate(14deg); }
+    .lottery2-game #main .talent-game .box .count-num {
+      position: absolute;
+      left: 90px;
+      top: -1px;
+      width: 95px;
+      height: 40px;
+      border: 1px solid #fff;
+      color: #fead00;
+      text-align: center;
+      line-height: 40px; }
+.lottery2-game #main .top-player {
+  padding-bottom: 100px;
+  overflow: hidden;
+  clear: both; }
+  .lottery2-game #main .top-player .title {
+    background-position: center -87px; }
+  .lottery2-game #main .top-player .col-md-4 {
+    text-align: center; }
+  .lottery2-game #main .top-player .box {
+    display: inline-block;
+    position: relative;
+    width: 320px;
+    height: 190px; }
+    .lottery2-game #main .top-player .box .info h4 {
+      margin: 0;
+      padding: 24px 0 20px;
+      text-align: center;
+      color: #fff;
+      font-size: 20px; }
+    .lottery2-game #main .top-player .box .info em {
+      font-style: normal;
+      font-size: 25px;
+      color: #fff; }
+      .lottery2-game #main .top-player .box .info em span {
+        color: #fead00; }
+    .lottery2-game #main .top-player .box .info p {
+      text-align: center;
+      color: #999;
+      margin: 0; }
+    .lottery2-game #main .top-player .box .progress {
+      position: relative;
+      margin: 10px auto 0;
+      width: 238px;
+      height: 24px;
+      line-height: 24px;
+      color: #fff;
+      border-radius: 0;
+      background-color: #878787; }
+      .lottery2-game #main .top-player .box .progress .pro-rate {
+        display: block;
+        width: 50px;
+        height: 24px;
+        background-color: #fead00; }
+      .lottery2-game #main .top-player .box .progress .player-numb {
+        width: 60px;
+        position: absolute;
+        left: 50%;
+        top: 0;
+        margin-left: -30px; }
+    .lottery2-game #main .top-player .box a.btn {
+      width: 160px;
+      height: 40px;
+      margin-left: -80px; }
+.lottery2-game #game .tabs {
+  overflow: hidden; }
+  .lottery2-game #game .tabs ul {
+    padding: 0; }
+  .lottery2-game #game .tabs li {
+    float: left;
+    margin-right: 100px;
+    color: #fff;
+    font-size: 20px;
+    border: 2px solid transparent; }
+    .lottery2-game #game .tabs li:hover {
+      cursor: pointer;
+      border-bottom: 2px solid #fead00; }
+    .lottery2-game #game .tabs li.active {
+      border-bottom: 2px solid #fead00; }
+.lottery2-game #game .game-container {
+  margin-top: 60px;
+  margin-bottom: 100px; }
+  .lottery2-game #game .game-container .title {
+    font-size: 20px;
+    overflow: hidden;
+    height: 44px;
+    color: #fff;
+    background: url("../img/icons.png") no-repeat;
+    background-position: -425px 0; }
+    .lottery2-game #game .game-container .title p {
+      margin: 15px 0 0;
+      padding-left: 70px;
+      display: inline-block; }
+      .lottery2-game #game .game-container .title p span {
+        color: #fead00; }
+    .lottery2-game #game .game-container .title .counts {
+      margin-top: 15px;
+      float: right; }
+  .lottery2-game #game .game-container .choose-box .box {
+    position: relative;
+    width: 100%;
+    height: 244px;
+    margin-bottom: 40px;
+    border: 1px solid #fff; }
+    .lottery2-game #game .game-container .choose-box .box i {
+      position: absolute;
+      display: inline-block;
+      width: 38px;
+      height: 27px;
+      border: 4px solid #fead00; }
+      .lottery2-game #game .game-container .choose-box .box i:nth-child(1) {
+        left: -2px;
+        top: -3px;
+        border-right: 0;
+        border-bottom: 0; }
+      .lottery2-game #game .game-container .choose-box .box i:nth-child(2) {
+        right: -2px;
+        top: -3px;
+        border-left: 0;
+        border-bottom: 0; }
+      .lottery2-game #game .game-container .choose-box .box i:nth-child(3) {
+        left: -2px;
+        bottom: -3px;
+        border-right: 0;
+        border-top: 0; }
+      .lottery2-game #game .game-container .choose-box .box i:nth-child(4) {
+        right: -2px;
+        bottom: -3px;
+        border-left: 0;
+        border-top: 0; }
+    .lottery2-game #game .game-container .choose-box .box a.btn {
+      padding: 0;
+      border-radius: 0;
+      background-color: #fead00;
+      width: 315px;
+      height: 38px;
+      text-align: center;
+      line-height: 38px;
+      color: #fff;
+      font-size: 13px;
+      position: absolute;
+      left: 50%;
+      bottom: -19px;
+      margin-left: -157.5px;
+      background: linear-gradient(to top, #b66c03, #fead00);
+      border: 0; }
+    .lottery2-game #game .game-container .choose-box .box .boll-box {
+      position: absolute;
+      left: 54px;
+      top: 126px;
+      width: 80px;
+      height: 60px;
+      background: url("../img/icons.png") no-repeat;
+      background-position: -296px 0px; }
+      .lottery2-game #game .game-container .choose-box .box .boll-box span {
+        color: #fff;
+        position: absolute; }
+        .lottery2-game #game .game-container .choose-box .box .boll-box span:nth-child(1) {
+          left: 18px;
+          top: 25px;
+          transform: rotate(-10deg); }
+        .lottery2-game #game .game-container .choose-box .box .boll-box span:nth-child(2) {
+          font-size: 15px;
+          left: 44px;
+          top: 13px;
+          transform: rotate(14deg); }
+    .lottery2-game #game .game-container .choose-box .box .intro-name {
+      position: absolute;
+      left: 42px;
+      top: 35px; }
+      .lottery2-game #game .game-container .choose-box .box .intro-name h4 {
+        font-size: 30px;
+        color: #fead00; }
+        .lottery2-game #game .game-container .choose-box .box .intro-name h4 span {
+          margin-left: 35px; }
+      .lottery2-game #game .game-container .choose-box .box .intro-name p {
+        color: rgba(255, 255, 255, 0.5); }
+    .lottery2-game #game .game-container .choose-box .box .boll-list {
+      position: absolute;
+      left: 314px;
+      top: 73px;
+      width: 800px; }
+      .lottery2-game #game .game-container .choose-box .box .boll-list span {
+        display: inline-block;
+        width: 42px;
+        height: 42px;
+        border-radius: 50%;
+        color: #fff;
+        text-align: center;
+        line-height: 42px;
+        font-size: 26px;
+        margin: 0 10px 10px 0;
+        cursor: pointer; }
+        .lottery2-game #game .game-container .choose-box .box .boll-list span.active {
+          background-color: #fead00;
+          color: #000; }
+    .lottery2-game #game .game-container .choose-box .box .random-box {
+      position: absolute;
+      right: 38px;
+      top: 40px;
+      color: #fead00;
+      padding-right: 32px; }
+      .lottery2-game #game .game-container .choose-box .box .random-box span {
+        cursor: pointer;
+        position: absolute;
+        right: -3px;
+        top: 3px;
+        display: inline-block;
+        width: 30px;
+        height: 20px;
+        background: url("../img/random2.png") no-repeat;
+        background-size: 60%; }
+  .lottery2-game #game .game-container .choose-box .add-buy {
+    margin: 0 auto;
+    width: 604px;
+    height: 36px;
+    line-height: 36px;
+    border: 1px solid #fead00;
+    color: #fead00;
+    text-align: center;
+    transition: all 0.5s;
+    cursor: pointer; }
+  .lottery2-game #game .game-container .choose-box .pay-btn {
+    margin: 0 auto 20px;
+    width: 604px;
+    height: 36px;
+    line-height: 36px;
+    border: 1px solid #fead00;
+    color: #000;
+    text-align: center;
+    transition: all 0.5s;
+    background: linear-gradient(to top, #b66c03, #fead00);
+    cursor: pointer; }
+.lottery2-game #game .players .choose-box .progress {
+  width: 100%;
+  height: 58px;
+  line-height: 58px;
+  border: 1px solid rgba(255, 255, 255, 0.5);
+  text-align: center;
+  position: relative;
+  margin: 40px auto;
+  color: #fff;
+  border-radius: 0;
+  background-color: transparent; }
+  .lottery2-game #game .players .choose-box .progress .pro-rate {
+    display: block;
+    width: 50px;
+    height: 58px;
+    background-color: #fead00; }
+  .lottery2-game #game .players .choose-box .progress .player-numb {
+    width: 80px;
+    height: 58px;
+    line-height: 58px;
+    position: absolute;
+    left: 50%;
+    top: 0;
+    margin-left: -40px;
+    font-size: 16px; }
+.lottery2-game #game .players .choose-box .pay-btn {
+  width: 100%;
+  height: 58px;
+  line-height: 58px;
+  font-size: 20px; }
+
+/*# sourceMappingURL=dapp.css.map */

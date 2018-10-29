@@ -1,0 +1,592 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>dapp-wheel</title>
+    <meta name="description" content="description">
+    <meta name="keywords" content="keywords">
+    <link rel="stylesheet" href="dist/bootstrap/css/bootstrap.min.css">
+    <link rel="stylesheet" href="dist/css/dapp_pro.css">
+</head>
+
+<body class="dapp wheel-game">
+    <div id="app">
+        <app-component></app-component>
+    </div>
+    <script id="app-template" type="text/x-template">
+        <div>
+            <header>
+                <div class="content">
+                    <div class="logo">
+                        <a href="index.html"></a>
+                    </div>
+                    <div class="nav">
+                        <ul class="nav-list" id="menu">
+                            <li><a href="index.html">Home</a></li>
+                            <!-- <li><a href="#">玩法介绍</a></li> -->
+                            <li><a href="javascript:;" class="history">History</a></li>
+                        </ul>
+                        <!-- <div class="lang">
+                            <span>CH</span>
+                            <ul>
+                                <li id="en">EN</li>
+                                <li id="ch">CH</li>
+                            </ul>
+                        </div> -->
+                    </div>
+                </div>
+            </header>
+            <div class="container">
+                <p class="wheel-game-logo">All operations, player bets, results, winning management and distribution of sales funds are 
+                            recorded on the blockchain</p>
+                <div class="wheel-box">
+                    <div class="play-box">
+                        <div class="center">
+                            <img src="dist/imgs/wheel-2.png" alt="">
+                        </div>
+                        <div class="rotate">
+                            <img id="rotate" src="dist/imgs/wheel-3.png" alt="">
+                        </div>
+                        <div class="light">
+                            <img src="dist/imgs/wheel-1.png" alt="">
+                        </div>
+                        <div class="pointer">
+                            <img src="dist/imgs/guide.png" alt="">
+                        </div>
+                        <div class="bottom">
+                            <img src="dist/imgs/wheel-5.png" alt="">
+                        </div>
+                    </div>
+                    <!-- <div class="get-bet"></div> -->
+                    <div class="contro-box">
+                        <div class="play-class play-two">
+                            <div class="choose-price">
+                                <span>ETH</span>
+                                <div class="value-container input-value">
+                                    <input type="text" v-model="bet">
+                                    <i class="up"></i>
+                                    <i class="down"></i>
+                                </div>
+                                
+                            </div>
+                        </div>
+                        <a href="javascript:;" class="play-game">GO</a>
+                    </div>        
+                </div>
+
+                <div class="history-container" style="display:none"> 
+                    <div class="hist-box">
+                        <h4><span class="back-btn"></span></h4>
+                        <ul>
+                            <li v-for="(item,index) in myOrders" v-if="index < 10">
+                                <p class="player">{{item._player}}</p>
+                                <div class="money"><p>Bets: <span>{{eval('('+ item._betValue +')') / Math.pow(10,18)}} ETH</span></p></div>
+                                <span class="state">{{ eval('('+ item._winValue +')') > 0 ? 'Win': 'Lose' }}</span>
+                                <p class="value"><span>{{eval('('+ item._winValue +')') / Math.pow(10,18)}}</span>ETH</p>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="footer"></div>
+
+            <div class="mask notice-mask">
+                <div class="mask-tips">
+                    <!-- <span class="close-btn"></span> -->
+                    <h4>Tips</h4>
+                    <p></p>
+                    <a href="javascript:;" class="sure-btn">OK</a>
+                </div>
+            </div>
+            <div class="mask result-mask">
+                <div class="reuslt-box">
+                    <img class="bg-light" src="dist/imgs/result-light.png" alt="">
+                    <div class="notice">
+                        <img  src="dist/imgs/result-notcie.png" alt="">
+                        <span class="win-value">1.5 ETH</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </script>
+    <script src="dist/js/jquery.min.js"></script>
+    <script src="dist/js/vue.min.js"></script>
+    <script src="dist/js/awardRotate.js"></script>
+    <script src="dist/web3/web3.min.js"></script>
+
+    <script>
+        Vue.component('app-component', {
+            template: '#app-template',
+            data() {
+                return {
+                    switch: true,
+                    time: null,
+                    n: 0,
+                    i: 0,
+                    w: 0,
+                    h: 0,
+                    r: 0,
+                    bet: 0.01,
+                    value: 0,
+                    minBet: 0,
+                    maxBet: 0,
+                    account: '',
+                    historyDatas: [],
+                    myOrders: [],
+                    roundNO: 0,
+                    playerWinValue: 0,
+                    address: "0x56AF47a19c22d163D6eC58ceD87B5FC0c273f724",
+                    abi: [{"constant":true,"inputs":[{"name":"","type":"uint256"}],"name":"playerAddress","outputs":[{"name":"","type":"address"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":true,"inputs":[],"name":"roundNO","outputs":[{"name":"","type":"uint256"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":true,"inputs":[],"name":"isActive","outputs":[{"name":"","type":"bool"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":true,"inputs":[{"name":"","type":"uint256"}],"name":"windata","outputs":[{"name":"","type":"uint256"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":true,"inputs":[],"name":"lotteryPool","outputs":[{"name":"","type":"uint256"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":true,"inputs":[],"name":"maxBet","outputs":[{"name":"","type":"uint256"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":true,"inputs":[{"name":"","type":"uint256"}],"name":"playerWinValue","outputs":[{"name":"","type":"uint256"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":false,"inputs":[{"name":"_isActive","type":"bool"}],"name":"changeGameState","outputs":[],"payable":false,"stateMutability":"nonpayable","type":"function"},{"constant":true,"inputs":[],"name":"owner","outputs":[{"name":"","type":"address"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":false,"inputs":[],"name":"buyLottery","outputs":[],"payable":true,"stateMutability":"payable","type":"function"},{"constant":true,"inputs":[],"name":"minBet","outputs":[{"name":"","type":"uint256"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":true,"inputs":[{"name":"a","type":"uint256"},{"name":"b","type":"uint256"}],"name":"safeSub","outputs":[{"name":"c","type":"uint256"}],"payable":false,"stateMutability":"pure","type":"function"},{"constant":true,"inputs":[],"name":"gameClass","outputs":[{"name":"","type":"uint256"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":true,"inputs":[],"name":"winNo","outputs":[{"name":"","type":"uint256"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":true,"inputs":[{"name":"a","type":"uint256"},{"name":"b","type":"uint256"}],"name":"safeDiv","outputs":[{"name":"c","type":"uint256"}],"payable":false,"stateMutability":"pure","type":"function"},{"constant":true,"inputs":[{"name":"","type":"uint256"}],"name":"playerBetValue","outputs":[{"name":"","type":"uint256"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":true,"inputs":[{"name":"a","type":"uint256"},{"name":"b","type":"uint256"}],"name":"safeMul","outputs":[{"name":"c","type":"uint256"}],"payable":false,"stateMutability":"pure","type":"function"},{"constant":true,"inputs":[{"name":"","type":"uint256"}],"name":"playerBuyNo","outputs":[{"name":"","type":"uint8"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":true,"inputs":[{"name":"","type":"uint256"}],"name":"gameNumberOne","outputs":[{"name":"","type":"uint8"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":true,"inputs":[{"name":"a","type":"uint256"},{"name":"b","type":"uint256"}],"name":"safeAdd","outputs":[{"name":"c","type":"uint256"}],"payable":false,"stateMutability":"pure","type":"function"},{"constant":false,"inputs":[],"name":"ownerWithdrawal","outputs":[],"payable":false,"stateMutability":"nonpayable","type":"function"},{"constant":false,"inputs":[{"name":"_newOwner","type":"address"}],"name":"transferOwnership","outputs":[],"payable":false,"stateMutability":"nonpayable","type":"function"},{"inputs":[],"payable":false,"stateMutability":"nonpayable","type":"constructor"},{"payable":true,"stateMutability":"payable","type":"fallback"},{"anonymous":false,"inputs":[{"indexed":false,"name":"_roundNo","type":"uint256"},{"indexed":false,"name":"_randomNo","type":"uint8"},{"indexed":true,"name":"_player","type":"address"},{"indexed":true,"name":"_betValue","type":"uint256"},{"indexed":true,"name":"_winValue","type":"uint256"}],"name":"LogLotteryEvent","type":"event"},{"anonymous":false,"inputs":[{"indexed":true,"name":"_form","type":"address"},{"indexed":true,"name":"_to","type":"address"}],"name":"OwnershipTransferred","type":"event"}]
+                }
+            },
+            created() {
+                var vm = this;
+            },
+            watch: {},
+            methods: {
+                relustShow: function(text) {
+                    $('.result-mask').show();
+                    $('.win-value').html(text + ' ' +'ETH');
+                },
+                noticeText: function(text) {
+                    $('.notice-mask').show();
+                    $('.mask-tips').find('p').html(text);
+                },
+                accAdd: function(arg1, arg2) {
+                    var r1, r2, m, c;  
+                    try { r1 = arg1.toString().split(".")[1].length } catch (e) { r1 = 0 }  
+                    try { r2 = arg2.toString().split(".")[1].length } catch (e) { r2 = 0 }  
+                    c = Math.abs(r1 - r2);  
+                    m = Math.pow(10, Math.max(r1, r2))  
+                    if (c > 0) {  
+                        var cm = Math.pow(10, c);  
+                        if (r1 > r2) {  
+                            arg1 = Number(arg1.toString().replace(".", ""));  
+                            arg2 = Number(arg2.toString().replace(".", "")) * cm;  
+                        }  
+                        else {  
+                            arg1 = Number(arg1.toString().replace(".", "")) * cm;  
+                            arg2 = Number(arg2.toString().replace(".", ""));  
+                        }  
+                    }  
+                    else {  
+                        arg1 = Number(arg1.toString().replace(".", ""));  
+                        arg2 = Number(arg2.toString().replace(".", ""));  
+                    }  
+                    return (arg1 + arg2) / m 
+                },
+                accSub: function(arg1,arg2) {
+                    var r1,r2,m,n;  
+                    try{r1=arg1.toString().split(".")[1].length}catch(e){r1=0}  
+                    try{r2=arg2.toString().split(".")[1].length}catch(e){r2=0}  
+                    m=Math.pow(10,Math.max(r1,r2));  
+                    //last modify by deeka  
+                    //动态控制精度长度  
+                    n=(r1>=r2)?r1:r2;  
+                    return ((arg1*m-arg2*m)/m).toFixed(n);
+                },
+                contract: function(contractInstance) {
+                    var vm = this;
+
+                    //查询数据 minBet 最小赌注
+                    var minBet = contractInstance.minBet.call(function(error, res){
+                        if (!error) {
+                            // console.log('minBet',eval("("+res+")") / Math.pow(10,18));
+                        }
+                    })
+
+                    //查询数据 maxBet 最大赌注
+                    var maxBet = contractInstance.maxBet.call(function(error, res){
+                        if (!error) {
+                            // console.log('maxBet',eval("("+res+")") / Math.pow(10,18));
+                        }
+                    })
+
+                    var gameClass = contractInstance.gameClass.call(function(error, res){
+                        if (!error) {
+                            // console.log('gameClass',eval("("+res+")"));
+                        }
+                    })
+
+                    //查询数据 roundNO 游戏轮数
+                    var roundNO = contractInstance.roundNO.call(function(error, res){
+                        if (!error) {
+                            console.log('roundNO',eval("("+res+")"));
+                            vm.roundNO = eval("("+res+")");
+                        }
+                    })
+                },
+                numberToAngle: function(num) {
+                    var angle,text;
+
+                    switch (num) 
+                    {
+                        case 0:
+                            angle = 345;
+                            text = '150%';
+                            break;
+                        case 1:
+                            angle = 330;
+                            text = '2%';
+                            break;
+                        case 2:
+                            angle = 315;
+                            text = '120%';
+                            break;
+                        case 3:
+                            angle = 300;
+                            text = 'Lose';
+                            break;
+                        case 4:
+                            angle = 285;
+                            text = '35%';
+                            break;
+                        case 5:
+                            angle = 270;
+                            text = '100%';
+                            break;
+                        case 6:
+                            angle = 255;
+                            text = '105%';
+                            break;
+                        case 7:
+                            angle = 240;
+                            text = '45%';
+                            break;
+                        case 8:
+                            angle = 225;
+                            text = '5%';
+                            break;
+                        case 9:
+                            angle = 210;
+                            text = '20%';
+                            break;
+                        case 10:
+                            angle = 195;
+                            text = '300%';
+                            break;
+                        case 11:
+                            angle = 180;
+                            text = '15%';
+                            break;
+                        case 12:
+                            angle = 165;
+                            text = '10%';
+                            break;
+                        case 13:
+                            angle = 150;
+                            text = 'Lose';
+                            break;
+                        case 14:
+                            angle = 135;
+                            text = '1%';
+                            break;
+                        case 15:
+                            angle = 120;
+                            text = '35%';
+                            break;
+                        case 16:
+                            angle = 105;
+                            text = '25%';
+                            break;
+                        case 17:
+                            angle = 90;
+                            text = '100%';
+                            break;
+                        case 18:
+                            angle = 75;
+                            text = '160%';
+                            break;
+                        case 19:
+                            angle = 60;
+                            text = '50%';
+                            break;
+                        case 20:
+                            angle = 45;
+                            text = '600%';
+                            break;
+                        case 21:
+                            angle = 30;
+                            text = '35%';
+                            break;
+                        case 22:
+                            angle = 15;
+                            text = '25%';
+                            break;
+                        case 23:
+                            angle = 360;
+                            text = '75%';
+                            break;
+
+                    }
+
+                    var result = {
+                        angle: angle,
+                        text: text
+                    };
+                    return result;
+                },
+                getDatas: function(events) {
+                    var vm = this;
+                    events.get(function(error, logs){
+                    // console.log('logs',logs);
+ 
+                        vm.myOrders = [];
+
+                        if(!error) {
+                            for(var i = 0;i< logs.length;i++) {
+
+                                vm.historyDatas.unshift(logs[i].args);
+
+                                if(logs[i].args._player == vm.account[0]) {
+
+                                    vm.myOrders.unshift(logs[i].args);
+                                }
+                            }
+                        } else {
+                            console.log('error',error)
+                        }
+                        // console.log('myOrders',vm.myOrders)
+                    });
+                },
+                easeOut: function(t,b,c,d) {
+                    if ((t /= d / 2) < 1) return c / 2 * t * t + b;
+                    return -c / 2 * ((--t) * (t - 2) - 1) + b;
+                },
+                rotateFn: function(awards, angles, txt) {
+                    var vm = this;
+                    $('#rotate').stopRotate();
+
+                    $('#rotate').rotate({
+
+                        angle: awards,
+
+                        animateTo: angles + 1800,
+
+                        duration: 8000,
+
+                        callback: function (){
+
+                            vm.switch = true;
+                            vm.relustShow(txt);
+                        }
+
+                    })
+                }
+               
+            },
+            mounted() {
+                var vm = this;
+
+                if (typeof web3 !== 'undefined') {                                           
+                    window.web3 = new Web3(web3.currentProvider);
+                } else {                                                                            
+                    window.web3 = new Web3(new Web3.providers.HttpProvider('https://mainnet.infura.io/0rBNkNJthXDWDNrQeweR')); 
+                } 
+
+                // 返回当前节点持有的帐户列表
+                web3.eth.getAccounts(function(error,res) {
+                    console.log('account',res);
+                    vm.account = res;
+                });
+
+                //  实时监测账号变化
+                var account = setInterval(function() {
+                    web3.eth.getAccounts(function(error,res) {//异步
+                        if(vm.account[0] && vm.account[0] != res[0]) {
+                            vm.account = res;
+                            vm.getDatas(events);
+                            $('body').find('.get-bet').html('');
+                            $('.play-btn').find('.roll-btn').removeClass('active');
+                        }
+                    });
+                },1000)
+
+                var MyContract = web3.eth.contract(vm.abi);
+                var contractInstance = MyContract.at(vm.address);
+                vm.contract(contractInstance);
+
+
+                // 下注交易
+                $('body').on('click','.play-game',function() {
+
+                    web3.eth.getAccounts(function(error,res) {
+                        vm.account = res;
+
+                        if(vm.switch && vm.bet >= 0.01) {
+                            if(!vm.account[0]) {
+                                vm.noticeText('Please login metaMask !');
+                                return;
+                            } else {
+                                contractInstance.buyLottery.sendTransaction({from: vm.account[0] ,value:vm.bet * Math.pow(10,18)},function(error,result) {
+                                    // console.log('res',result);
+                                    if(result) {
+
+                                        vm.switch = false;
+
+                                        $('body').find('.get-bet').html('<p class="sending">Your transaction '+ result +' In the sending  <span></span></p>');
+
+                                        vm.time = setInterval(function() {
+                                            vm.i += 15;
+                                            $('#rotate').css({'transform':'rotate('+ vm.i +'deg)'});                        
+                                        },40)
+
+                                    } else {
+                                        return;
+                                    }
+                                    
+                                })
+                            }
+                        } else {
+                            if(vm.bet < 0.01) {
+                                vm.noticeText('The min amount to be injected is 0.01EHT');
+                            } else if(!vm.switch) {
+                                vm.noticeText('The game is in progress, please wait a minute');
+                            }
+                        }  
+                    })
+                });
+
+                $('.stop-game').click(function() {
+                    var angle = 90 ;
+                    
+                    vm.i = vm.i - 15;
+                    
+                    console.log('i',vm.i);
+
+                    clearInterval(vm.time);
+                    vm.time = null;
+
+                    var rad = 360 - (vm.i % 360);
+
+                    var sum = rad;
+
+                    vm.time = setInterval(function() {
+                        vm.i += 15;
+                        $('#rotate').css({'transform':'rotate('+ vm.i +'deg)'});           
+                        console.log('n',vm.n)
+                        sum = sum - 15;
+                        console.log('sum',sum)
+                        if(sum < 15) {
+                            clearInterval(vm.time);
+                            vm.time = null;
+                            vm.rotateFn(0,angle,'00');
+                            
+                        }                       
+                    },30)
+                })
+
+                //监听合约中的 LogLotteryEvent 事件
+                var LogLottery_Event = contractInstance.LogLotteryEvent();
+                LogLottery_Event.watch(function(error,result) {
+                    if(!error) { 
+                        if(result.args._player == vm.account[0] && eval('('+ result.args._roundNo +')') != vm.roundNO ) {
+                            console.log('LogLotteryEvent',result)
+                            // vm.myOrders.unshift(result.args);
+                            vm.contract(contractInstance);
+                            
+                            console.log('ra',eval("(" + result.args._randomNo + ")"))
+                            var angle = vm.numberToAngle(eval("(" + result.args._randomNo + ")")).angle;
+                            var text = vm.numberToAngle(eval("(" + result.args._randomNo + ")")).text;
+                            
+                            vm.i = vm.i - 15;
+
+                            clearInterval(vm.time);
+                            vm.time = null;
+
+                            var rad = 360 - (vm.i % 360);
+
+                            var sum = rad;
+
+                            vm.time = setInterval(function() {
+
+                                vm.i += 15;
+
+                                $('#rotate').css({'transform':'rotate('+ vm.i +'deg)'});
+
+                                sum = sum - 15;
+
+                                if(sum < 15) {
+                                    clearInterval(vm.time);
+                                    vm.time = null;
+                                    vm.rotateFn(0,angle,text);
+                                }                       
+                            },40)
+
+                            // contractInstance.playerWinValue(vm.roundNO,function(error, res){
+                            //     if (!error) {
+                            //         console.log('playerWinValue',eval("("+res+")"));
+                            //         vm.playerWinValue = eval("("+res+")") / Math.pow(10,18);
+                            //         if(vm.playerWinValue) {
+                            //             $('body').find('.get-bet').html('<p class="win">恭喜您，获得了<span>'+ vm.playerWinValue +'ETH</span>您所赢得的BYS 已放入您的钱包</p>');
+                            //         } else {
+                            //             $('body').find('.get-bet').html('<p class="loss">很遗憾，您没有中奖，继续努力哦！</p>');
+                            //         }
+                            //     }
+                            // })
+                        }
+
+                        if(vm.roundNO != eval('('+ result.args._roundNo +')')) {
+                            vm.historyDatas.unshift(result.args);
+                        }
+                    }
+                })
+
+                // 获取logbet历史数据
+                var events = contractInstance.LogLotteryEvent({some: 'args'},{fromBlock: 0, toBlock: 'latest'});
+                vm.getDatas(events);
+
+            
+                // 用户投注金额操作
+                $('body').on('click','.input-value .up',function() {
+                    if(vm.bet < 1) {
+                        vm.bet = vm.accAdd(vm.bet,0.01);
+                    } else {
+                        return
+                    }
+                })
+
+                $('body').on('click','.input-value .down',function() {
+                    if(vm.bet > 0.01 ) {
+                        vm.bet = vm.accSub(vm.bet,0.01);
+                    } else {
+                        return
+                    }
+                })
+                
+                // 页面操作    
+                $('body').on('click','.dapp-btn',function() {
+                   $('.dropdown-menu').fadeIn('slow');
+                })
+
+                document.addEventListener('click',function(e) {
+                    $('.dropdown-menu').hide();
+                    $('.notice-mask').hide();
+                },true)
+
+                $('body').on('click','.sure-btn',function() {
+                    $('.notice-mask').hide();
+                })
+                
+                $('.history').click(function() {
+                    $('.history-container').show().siblings('.wheel-box').hide();
+                })
+                $('.back-btn').click(function() {
+                    $('.history-container').hide();
+                    $('.wheel-box').show();
+                })
+                $('.notice').click(function() {
+                    $('.result-mask').hide();
+                })
+            }
+        });
+        new Vue({
+            el: '#app',
+        });
+    </script>
+</body>
+
+</html>

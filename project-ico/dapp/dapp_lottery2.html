@@ -1,0 +1,396 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>dapp-lottery2</title>
+    <meta name="description" content="description">
+    <meta name="keywords" content="keywords">
+    <link rel="stylesheet" href="/dist/bootstrap/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/dist/css/dapp_pro.css">
+</head>
+
+<body class="dapp lottery2-game">
+    <div id="app">
+        <app-component></app-component>
+    </div>
+    <script id="app-template" type="text/x-template">
+        <div>
+            <div class="fixed-bg"></div>
+            <header>
+                <div class="content">
+                    <div class="logo">
+                        <a href="/" style="background-image: url(/dist/imgs/logo.png);"></a>
+                    </div>
+                    <div class="nav">
+                        <ul class="nav-list" id="menu">
+                            <li><a href="/">Home</a></li>
+                            <!-- <li><a href="#">玩法介绍</a></li> -->
+                            <!-- <li><a href="javascript:;" class="history">History</a></li> -->
+                        </ul>
+                        <!-- <div class="lang">
+                            <span>CH</span>
+                            <ul>
+                                <li id="en">EN</li>
+                                <li id="ch">CH</li>
+                            </ul>
+                        </div> -->
+                    </div>
+                </div>
+            </header>
+            <div class="container" id="main">
+                <div class="top-tabs">
+                        <div class="col-md-4 tab">
+                            <span></span>
+                            <h4>Fair</h4>
+                            <p>Use the transaction hash value as the basis <br>for the award</p>
+                        </div>
+                        <div class="col-md-4 tab">
+                            <span></span>
+                            <h4>Transparent</h4>
+                            <p>Each transaction generates a public <br>Ethereum contract</p>
+                        </div>
+                        <div class="col-md-4 tab">
+                            <span></span>
+                            <h4>Timely payment</h4>
+                            <p>Expiry of Direct Execution Contract to <br>Pay Ethereum</p>
+                        </div>
+                </div>
+                <div class="talent-game game-box" style="display:none;">
+                    <h4 class="title"></h4>
+                    <div class="game-one col-md-6">
+                        <div class="box">
+                            <i></i>
+                            <i></i>
+                            <i></i>
+                            <i></i>
+                            <div class="count-num">次数：56</div>
+                            <div class="info">
+                                <h4>头奖</h4>
+                                <p><em><span>3</span> ETH</em> ( ￥ 1504 )</p>
+                                <p class="status">开奖中....</p>
+                            </div>
+                            <div class="boll-box">
+                                <span>4</span>
+                                <span>20</span>
+                            </div>
+                            <a href="dapp_lottery2_talent.html" class="btn play-btn1">0.005ETH/票</a>
+                        </div>
+                    </div>
+                    <div class="game-two col-md-6">
+                        <div class="box">
+                            <i></i>
+                            <i></i>
+                            <i></i>
+                            <i></i>
+                            <div class="count-num">次数：56</div>
+                            <div class="info">
+                                <h4>头奖</h4>
+                                <p><em><span>3</span> ETH</em> ( ￥ 1504 )</p>
+                                <p class="status">开奖中....</p>
+                            </div>
+                            <div class="boll-box">
+                                <span>6</span>
+                                <span>45</span>
+                            </div>
+                            <a href="dapp_lottery2_talent.html" class="btn play-btn2">0.005ETH/票</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="top-player game-box">
+                    <h4 class="title">
+                        <p>The only winner takes all the bonuses</p>
+                    </h4>
+                    <div class="col-md-4" v-for="item in player_datas">
+                        <div class="loading" v-if="item.maxPlayers < 1"><img src="/dist/imgs/loading.gif" alt="" width="100"></div>
+                        <div class="box">
+                            <i></i>
+                            <i></i>
+                            <i></i>
+                            <i></i>
+                            <div class="info">
+                                <h4>Jackpot</h4>
+                                <p><em><span>{{ (item.betValue * item.maxPlayers * 0.8).toFixed(2) }}</span> ETH</em> (￥ {{ ( item.betValue * item.maxPlayers * 0.8 * ETH_CNY).toFixed(2) }})</p>
+                            </div>
+                            <p class="progress"><span class="pro-rate" :style="{ width: (item.curPlayer / item.maxPlayers) * 100 + '%' }"></span><span class="player-numb">{{ item.curPlayer }}/{{ item.maxPlayers }} player</span></p>
+                            <a v-bind:href=" 'dapp_lottery2_player.html?maxPlayers=' +  item.maxPlayers " class="btn play-btn2">{{ item.betValue }} ETH / times</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="mask notice-mask">
+                <div class="mask-tips">
+                    <!-- <span class="close-btn"></span> -->
+                    <h4>Tips</h4>
+                    <p></p>
+                    <a href="javascript:;" class="sure-btn">OK</a>
+                </div>
+            </div>
+            
+        </div>
+    </script>
+    <script src="/dist/js/jquery.min.js"></script>
+    <script src="/dist/js/vue.min.js"></script>
+    <script src="/dist/web3/web3.min.js"></script>
+    <!-- <script src="https://cdn.bootcss.com/bignumber.js/7.0.0/bignumber.min.js"></script> -->
+    <script>
+        Vue.component('app-component', {
+            template: '#app-template',
+            data() {
+                return {
+                    ETH_CNY: 0,
+                    width: 0,
+                    switch: true,
+                    numbers: [],
+                    bet: 0.05,
+                    account: '',
+                    roundNO: 0,
+                    winValue: 0,
+                    myOrders: [],
+                    historyDatas: [],
+                    player_datas: [
+                        {
+                            winValue: 0,
+                            curPlayer: 0,
+                            maxPlayers: 0,
+                            betValue: 0
+                        },
+                        {
+                            winValue: 0,
+                            curPlayer: 0,
+                            maxPlayers: 0,
+                            betValue: 0
+                        },
+                        {
+                            winValue: 0,
+                            curPlayer: 0,
+                            maxPlayers: 0,
+                            betValue: 0
+                        }
+                    ],
+                    address1: "0x57B44d1335dc7c4716F16dc2b2a9F9B966685C20",
+                    address2: "0x21e80b8351B3EAC404B15D96cD45072052059b12",
+                    address3: "0x97451087559314f44c8149775c58c07c559a97eA",
+                    abi: [{"constant":false,"inputs":[],"name":"BuyLottery","outputs":[],"payable":true,"stateMutability":"payable","type":"function"},{"constant":true,"inputs":[],"name":"roundNO","outputs":[{"name":"","type":"uint256"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":true,"inputs":[],"name":"bIsActive","outputs":[{"name":"","type":"bool"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":true,"inputs":[],"name":"lotteryPools","outputs":[{"name":"","type":"uint256"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":true,"inputs":[],"name":"maxPlayers","outputs":[{"name":"","type":"uint256"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":false,"inputs":[{"name":"_isActive","type":"bool"}],"name":"changeGameState","outputs":[],"payable":false,"stateMutability":"nonpayable","type":"function"},{"constant":true,"inputs":[],"name":"owner","outputs":[{"name":"","type":"address"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":true,"inputs":[{"name":"a","type":"uint256"},{"name":"b","type":"uint256"}],"name":"safeSub","outputs":[{"name":"c","type":"uint256"}],"payable":false,"stateMutability":"pure","type":"function"},{"constant":true,"inputs":[],"name":"betValue","outputs":[{"name":"","type":"uint256"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":true,"inputs":[{"name":"a","type":"uint256"},{"name":"b","type":"uint256"}],"name":"safeDiv","outputs":[{"name":"c","type":"uint256"}],"payable":false,"stateMutability":"pure","type":"function"},{"constant":true,"inputs":[],"name":"winValue","outputs":[{"name":"","type":"uint256"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":true,"inputs":[],"name":"walletBalance","outputs":[{"name":"","type":"uint256"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":true,"inputs":[],"name":"curPlayer","outputs":[{"name":"","type":"uint256"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":true,"inputs":[{"name":"a","type":"uint256"},{"name":"b","type":"uint256"}],"name":"safeMul","outputs":[{"name":"c","type":"uint256"}],"payable":false,"stateMutability":"pure","type":"function"},{"constant":true,"inputs":[{"name":"a","type":"uint256"},{"name":"b","type":"uint256"}],"name":"safeAdd","outputs":[{"name":"c","type":"uint256"}],"payable":false,"stateMutability":"pure","type":"function"},{"constant":false,"inputs":[],"name":"ownerWithdrawal","outputs":[],"payable":false,"stateMutability":"nonpayable","type":"function"},{"constant":false,"inputs":[{"name":"_newOwner","type":"address"}],"name":"transferOwnership","outputs":[],"payable":false,"stateMutability":"nonpayable","type":"function"},{"inputs":[],"payable":false,"stateMutability":"nonpayable","type":"constructor"},{"anonymous":false,"inputs":[{"indexed":true,"name":"player","type":"address"},{"indexed":true,"name":"prize","type":"uint256"},{"indexed":false,"name":"roundNO","type":"uint256"}],"name":"LogBet","type":"event"},{"anonymous":false,"inputs":[{"indexed":true,"name":"player","type":"address"},{"indexed":true,"name":"betValue","type":"uint256"},{"indexed":false,"name":"roundNO","type":"uint256"}],"name":"BuyBet","type":"event"},{"anonymous":false,"inputs":[{"indexed":true,"name":"_from","type":"address"},{"indexed":true,"name":"_to","type":"address"}],"name":"OwnershipTransferred","type":"event"}],
+                }
+            },
+            created() {
+                var vm = this;
+
+                 // 获取ETH 对 $ 价格
+                 $.ajax({
+                    url: 'https://data.block.cc/api/v1/exchange_rate?symbols=CNY&base=ETH',
+                    dataType: 'jsonp',
+                    type: "GET",
+                    crossDomain: true,
+                    success: function(data) {
+                        if(data.message == "success") {
+                            vm.ETH_CNY = data.data.rates.CNY.toFixed(2);
+                        }
+                    },
+                    error: function(msg) {
+                        console.log('error',msg);
+                    }
+                });
+            },
+            watch: {},
+            methods: {
+                noticeText: function(text) {
+                    $('.notice-mask').show();
+                    $('.mask-tips').find('p').html(text);
+                },
+                contract1: function(contractInstance) {
+                    var vm = this;
+
+                    contractInstance.curPlayer.call(function(error, res){
+                        if (!error) {
+                            // console.log('curPlayer',eval("("+res+")"));
+                            vm.player_datas[0].curPlayer = eval("("+res+")");
+                        }
+                    })
+                    contractInstance.maxPlayers.call(function(error, res){
+                        if (!error) {
+
+                            // console.log('maxPlayers',eval("("+res+")"));
+                            vm.player_datas[0].maxPlayers = eval("("+res+")");
+
+                            vm.width = (vm.player_datas[0].curPlayer / vm.player_datas[0].maxPlayers) * 100;
+                        }
+                    })
+                    contractInstance.betValue.call(function(error, res){
+                        if (!error) {
+                            // console.log('betValue',eval("("+res+")"));
+                            vm.player_datas[0].betValue = eval("("+res+")") / Math.pow(10,18);
+                        }
+                    })
+
+                },
+                contract2: function(contractInstance) {
+                    var vm = this;
+
+                    contractInstance.curPlayer.call(function(error, res){
+                        if (!error) {
+                            // console.log('curPlayer',eval("("+res+")"));
+                            vm.player_datas[1].curPlayer = eval("("+res+")");
+                        }
+                    })
+                    contractInstance.maxPlayers.call(function(error, res){
+                        if (!error) {
+                            // console.log('maxPlayers',eval("("+res+")"));
+                            vm.player_datas[1].maxPlayers = eval("("+res+")");
+
+                            vm.width = (vm.player_datas[1].curPlayer / vm.player_datas[1].maxPlayers) * 100;
+                        }
+                    })
+                    contractInstance.betValue.call(function(error, res){
+                        if (!error) {
+                            // console.log('betValue',eval("("+res+")"));
+                            vm.player_datas[1].betValue = eval("("+res+")") / Math.pow(10,18);
+                        }
+                    })
+
+                },
+                contract3: function(contractInstance) {
+                    var vm = this;
+
+                    contractInstance.curPlayer.call(function(error, res){
+                        if (!error) {
+                            // console.log('curPlayer',eval("("+res+")"));
+                            vm.player_datas[2].curPlayer = eval("("+res+")");
+                        }
+                    })
+                    contractInstance.maxPlayers.call(function(error, res){
+                        if (!error) {
+                            // console.log('maxPlayers',eval("("+res+")"));
+                            vm.player_datas[2].maxPlayers = eval("("+res+")");
+
+                            vm.width = (vm.player_datas[2].curPlayer / vm.player_datas[2].maxPlayers) * 100;
+                        }
+                    })
+                    contractInstance.betValue.call(function(error, res){
+                        if (!error) {
+                            // console.log('betValue',eval("("+res+")"));
+                            vm.player_datas[2].betValue = eval("("+res+")") / Math.pow(10,18);
+                        }
+                    })
+
+                },
+                getDatas: function(events) {
+                    var vm = this;
+                    events.get(function(error, logs){
+                        // console.log('logs',logs);
+
+                        // vm.myOrders = [];
+
+                        // if(!error) {
+                        //     for(var i = 0;i< logs.length;i++) {
+
+                        //         logs[i].args.bethash = vm.splitNum(eval("(" + logs[i].args.bethash + ")").toString(16));
+                        //         logs[i].args.hash = vm.splitNum(eval("(" + logs[i].args.hash + ")").toString(16));
+
+                        //         vm.historyDatas.unshift(logs[i].args);
+
+                        //         if(logs[i].args.player == vm.account[0]) {
+
+                        //             vm.myOrders.unshift(logs[i].args);
+                        //         }
+                        //     }
+                        // } else {
+                        //     console.log('error',error)
+                        // }
+                    });
+                }
+            },
+            mounted() {
+                var vm = this;
+
+                if (typeof web3 !== 'undefined') {                                           
+                    window.web3 = new Web3(web3.currentProvider);
+                } else {                                                           
+                    window.web3 = new Web3(new Web3.providers.HttpProvider('https://mainnet.infura.io/0rBNkNJthXDWDNrQeweR')); 
+                }
+
+                // 返回当前节点持有的帐户列表
+                web3.eth.getAccounts(function(error,res) {
+                    // console.log('account',res);
+                    vm.account = res;
+                });
+
+                //  实时监测账号变化
+                var account = setInterval(function() {
+                    web3.eth.getAccounts(function(error,res) {//异步
+                        if(vm.account[0] && vm.account[0] != res[0]) {
+                            vm.account = res;
+                            // vm.getDatas(events);
+                        }
+                    });
+                },100)
+
+                // 合约实例化
+                var MyContract = web3.eth.contract(vm.abi);
+                var contractInstance1 = MyContract.at(vm.address1);
+                var contractInstance2 = MyContract.at(vm.address2);
+                var contractInstance3 = MyContract.at(vm.address3);
+
+                vm.contract1(contractInstance1);
+                vm.contract2(contractInstance2);
+                vm.contract3(contractInstance3);
+
+                // 获取logbet历史数据
+                // var events = contractInstance1.LogBet({some: 'args'},{fromBlock: 0, toBlock: 'latest'});
+                // vm.getDatas(events);
+
+
+
+
+                $('body').on('click','.dapp-btn',function() {
+                   $('.dropdown-menu').fadeIn('slow');
+                })
+
+                document.addEventListener('click',function(e) {
+                    $('.dropdown-menu').hide();
+                    $('.notice-mask').hide();
+                },true);
+
+                $('body').on('click','.sure-btn',function() {
+                    $('.notice-mask').hide();
+                })
+
+
+
+                // nav 导航栏
+                $('body').on('click','.tabs-nav li',function() {
+                    if(!$(this).hasClass('active')) {
+                        $(this).addClass('active').siblings('li').removeClass('active');
+                    }
+
+                    var showname = $(this).attr('name');
+                    switch (showname) {
+                        case 'tab1':
+                            $('#box1').show().siblings().hide();
+                            break;
+                        case 'tab2':
+                            $('#box2').show().siblings().hide();
+                            break;
+                        case 'tab3':
+                            $('#box3').show().siblings().hide();
+                            break;
+                        case 'tab4':
+                            $('#box4').show().siblings().hide();
+                            break;
+                        case 'tab5':
+                            $('#box5').show().siblings().hide();
+                            break;
+                    }
+                })
+            }
+        });
+        new Vue({
+            el: '#app',
+        });
+    </script>
+</body>
+
+</html>

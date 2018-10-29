@@ -1,0 +1,261 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <title>buy</title>
+    <meta name="description" content="description">
+    <meta name="keywords" content="keywords">
+    <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <link rel="stylesheet" href="/dist/css/common.css">
+    <link rel="stylesheet" href="/dist/css/index_pro.css">
+</head>
+<body class="dapp">
+    <div id="app">
+        <app-component></app-component>
+    </div>
+    <script id="app-template" type="text/x-template">
+        <div>
+            <div class="buy-content">
+                <header>
+                    <div class="content">
+                        <div class="logo">
+                            <a href="/"></a>
+                        </div>
+                        <div class="nav">
+                            <ul class="nav-list" id="menu">
+                                <li><a href="/">Back</a></li>
+                            </ul>
+                            <div class="lang">
+                                <span>繁體中文</span>
+                                <ul>
+                                    <li id="en"><a href="buy.html">English</a></li>
+                                    <li id="jp"><a href="buy_jp.html">កម្ពុជា</a></li>
+                                    <li id="hy"><a href="buy_hy.html">한국어</a></li>
+                                    <li id="ry"><a href="buy_ry.html">日本語</a></li>
+                                    <li id="ey"><a href="buy_ey.html">русский язык</a></li>
+                                    <li id="xy"><a href="buy_xy.html">El español</a></li>
+                                    <li id="ch"><a href="buy_ch.html">简体中文</a></li>
+                                    <li id="ch_f"><a href="buy_chf.html">繁體中文</a></li>
+                                    <li id="py"><a href="buy_py.html">Português</a></li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </header>
+                <div class="buy-container">
+                    <div class="top-text">
+                        <p>{{ datas.b_t_1 }}</p>
+                        <div class="rate" id="bonus">0<i>%</i></div>
+                        <p style="font-size: 24px;">{{ datas.b_t_2 }}</p>
+                        <span id="price">1 ETH = 0 BYS</span>
+                        <p>{{ datas.b_t_3 }}</p>
+                    </div>
+                    
+                    <div class="form">
+                        <label for="">{{ datas.b_t_4 }}</label>
+                        <input type="email" id="email" :placeholder="datas.b_t_4">
+                        <label for="">{{ datas.b_t_5[0] }}</label>
+                        <select>
+                            <option value="" selected>{{ datas.b_t_5[1] }}</option>
+                            <option value="0">{{ datas.b_t_5[2] }}</option>
+                            <option value="1">{{ datas.b_t_5[3] }}</option>
+                        </select>
+                        <label for="">{{ datas.b_t_6[0] }}</label>
+                        <input type="text" id="send_address" :placeholder="datas.b_t_6[1]">
+                        <label for="">{{ datas.b_t_7[0] }}</label>
+                        <input type="text" id="get_address" :placeholder="datas.b_t_6[1]">
+                        <p class="agreemant"><span></span>{{ datas.b_t_8 }}</p>
+                        <button class="buy-btn">{{ datas.b_t_9 }}</button>
+                        <p>{{ datas.b_t_10 }}</p>
+                    </div>
+                </div>
+                <div class="alert-box">
+                    <p class="text"></p>
+                </div>
+            </div>
+        </div>
+    </script>
+    <script type="text/javascript" src="/dist/js/language.js"></script>
+    <script src="/dist/js/jquery.min.js"></script>
+    <script src="/dist/js/vue.min.js"></script>
+    <script src="/dist/web3/web3.min.js"></script>
+    <script src="/dist/js/common.js"></script>
+
+    <script>
+        Vue.component('app-component', {
+            template: '#app-template',
+            data() {
+                return {
+                    datas: lang_data.ch_f.buy_form,
+                }
+            },
+            created() {
+                var vm = this;
+            },
+            watch: {},
+            methods: {
+                
+            },
+            mounted() {
+                var vm = this;
+                var address = '0xE8b1B40f2d307bcE891833F46eef1f69560E6926';
+                var abi = [{"constant":true,"inputs":[],"name":"bonus02End","outputs":[{"name":"","type":"uint256"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":false,"inputs":[],"name":"checkGoalReached","outputs":[],"payable":false,"stateMutability":"nonpayable","type":"function"},{"constant":true,"inputs":[],"name":"name","outputs":[{"name":"","type":"string"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":false,"inputs":[{"name":"_spender","type":"address"},{"name":"_tokens","type":"uint256"}],"name":"approve","outputs":[{"name":"success","type":"bool"}],"payable":false,"stateMutability":"nonpayable","type":"function"},{"constant":true,"inputs":[{"name":"","type":"address"}],"name":"fundBalance","outputs":[{"name":"","type":"uint256"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":true,"inputs":[],"name":"totalSupply","outputs":[{"name":"","type":"uint256"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":false,"inputs":[{"name":"_from","type":"address"},{"name":"_to","type":"address"},{"name":"_tokens","type":"uint256"}],"name":"transferFrom","outputs":[{"name":"success","type":"bool"}],"payable":false,"stateMutability":"nonpayable","type":"function"},{"constant":true,"inputs":[],"name":"decimals","outputs":[{"name":"","type":"uint8"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":true,"inputs":[],"name":"beneficiary","outputs":[{"name":"","type":"address"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":true,"inputs":[],"name":"tokenAmountRasied","outputs":[{"name":"","type":"uint256"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":true,"inputs":[{"name":"_tokenOwner","type":"address"}],"name":"balanceOf","outputs":[{"name":"balance","type":"uint256"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":true,"inputs":[],"name":"bonus","outputs":[{"name":"","type":"uint256"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":false,"inputs":[],"name":"acceptOwnership","outputs":[],"payable":false,"stateMutability":"nonpayable","type":"function"},{"constant":true,"inputs":[],"name":"amountRaised","outputs":[{"name":"","type":"uint256"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":true,"inputs":[],"name":"bonus01Start","outputs":[{"name":"","type":"uint256"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":true,"inputs":[],"name":"freeCrawDeadline","outputs":[{"name":"","type":"uint256"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":true,"inputs":[],"name":"perDeadLine","outputs":[{"name":"","type":"uint256"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":true,"inputs":[],"name":"owner","outputs":[{"name":"","type":"address"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":true,"inputs":[],"name":"symbol","outputs":[{"name":"","type":"string"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":false,"inputs":[{"name":"target","type":"address"},{"name":"deadline","type":"uint256"}],"name":"managerAccount","outputs":[],"payable":false,"stateMutability":"nonpayable","type":"function"},{"constant":true,"inputs":[],"name":"price","outputs":[{"name":"","type":"uint256"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":true,"inputs":[],"name":"bonus02Start","outputs":[{"name":"","type":"uint256"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":true,"inputs":[{"name":"a","type":"uint256"},{"name":"b","type":"uint256"}],"name":"safeSub","outputs":[{"name":"c","type":"uint256"}],"payable":false,"stateMutability":"pure","type":"function"},{"constant":true,"inputs":[],"name":"tokenOwner","outputs":[{"name":"","type":"address"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":false,"inputs":[{"name":"_to","type":"address"},{"name":"_tokens","type":"uint256"}],"name":"transfer","outputs":[{"name":"success","type":"bool"}],"payable":false,"stateMutability":"nonpayable","type":"function"},{"constant":true,"inputs":[{"name":"a","type":"uint256"},{"name":"b","type":"uint256"}],"name":"safeDiv","outputs":[{"name":"c","type":"uint256"}],"payable":false,"stateMutability":"pure","type":"function"},{"constant":true,"inputs":[],"name":"bonus02","outputs":[{"name":"","type":"uint256"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":false,"inputs":[{"name":"_spender","type":"address"},{"name":"_tokens","type":"uint256"},{"name":"_data","type":"bytes"}],"name":"approveAndCall","outputs":[{"name":"success","type":"bool"}],"payable":false,"stateMutability":"nonpayable","type":"function"},{"constant":true,"inputs":[],"name":"bonus01","outputs":[{"name":"","type":"uint256"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":true,"inputs":[],"name":"crowdsaleClosed","outputs":[{"name":"","type":"bool"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":true,"inputs":[{"name":"a","type":"uint256"},{"name":"b","type":"uint256"}],"name":"safeMul","outputs":[{"name":"c","type":"uint256"}],"payable":false,"stateMutability":"pure","type":"function"},{"constant":true,"inputs":[],"name":"fundingGoalReached","outputs":[{"name":"","type":"bool"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":true,"inputs":[],"name":"minGoal","outputs":[{"name":"","type":"uint256"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":true,"inputs":[],"name":"newOwner","outputs":[{"name":"","type":"address"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":true,"inputs":[{"name":"_tokenOwner","type":"address"},{"name":"_spender","type":"address"}],"name":"allowance","outputs":[{"name":"remaining","type":"uint256"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":true,"inputs":[{"name":"a","type":"uint256"},{"name":"b","type":"uint256"}],"name":"safeAdd","outputs":[{"name":"c","type":"uint256"}],"payable":false,"stateMutability":"pure","type":"function"},{"constant":true,"inputs":[{"name":"","type":"address"}],"name":"frozenAccountByOwner","outputs":[{"name":"","type":"uint256"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":false,"inputs":[{"name":"_newOwner","type":"address"}],"name":"transferOwnership","outputs":[],"payable":false,"stateMutability":"nonpayable","type":"function"},{"constant":true,"inputs":[],"name":"bonus01End","outputs":[{"name":"","type":"uint256"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":true,"inputs":[],"name":"maxGoal","outputs":[{"name":"","type":"uint256"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":false,"inputs":[],"name":"safeWithdrawal","outputs":[],"payable":false,"stateMutability":"nonpayable","type":"function"},{"inputs":[],"payable":false,"stateMutability":"nonpayable","type":"constructor"},{"payable":true,"stateMutability":"payable","type":"fallback"},{"anonymous":false,"inputs":[{"indexed":false,"name":"_beneficiary","type":"address"},{"indexed":false,"name":"_amountRaised","type":"uint256"}],"name":"GoalReached","type":"event"},{"anonymous":false,"inputs":[{"indexed":false,"name":"_backer","type":"address"},{"indexed":false,"name":"_amount","type":"uint256"},{"indexed":false,"name":"_isContribution","type":"bool"}],"name":"FundTransfer","type":"event"},{"anonymous":false,"inputs":[{"indexed":false,"name":"target","type":"address"},{"indexed":false,"name":"deadline","type":"uint256"}],"name":"FrozenAccount","type":"event"},{"anonymous":false,"inputs":[{"indexed":true,"name":"_from","type":"address"},{"indexed":true,"name":"_to","type":"address"}],"name":"OwnershipTransferred","type":"event"},{"anonymous":false,"inputs":[{"indexed":true,"name":"from","type":"address"},{"indexed":true,"name":"to","type":"address"},{"indexed":false,"name":"tokens","type":"uint256"}],"name":"Transfer","type":"event"},{"anonymous":false,"inputs":[{"indexed":true,"name":"tokenOwner","type":"address"},{"indexed":true,"name":"spender","type":"address"},{"indexed":false,"name":"tokens","type":"uint256"}],"name":"Approval","type":"event"}];
+                var price, cur_price, bonus;
+
+                // 获取合约数据
+                if (typeof web3 !== 'undefined') {                                         
+                    window.web3 = new Web3(web3.currentProvider);
+                } else {                                                                           
+                    window.web3 = new Web3(new Web3.providers.HttpProvider('https://mainnet.infura.io/0rBNkNJthXDWDNrQeweR')); 
+                } 
+                 
+                // 合约实例化
+                var MyContract = web3.eth.contract(abi);
+                var contractInstance = MyContract.at(address);
+
+                //查询合约数据 bonus 当前区间加成值
+                contractInstance.bonus.call(function(error, res){
+                    if (!error) {
+
+                        bonus = eval("("+res+")");
+                        $('#bonus').html( bonus+ '<i>%</i>');
+
+                        //查询合约数据 price 价格
+                        contractInstance.price.call(function(error, res){
+                            if (!error) {
+                                price = eval("("+res+")");
+                                cur_price = price * ( bonus / 100 + 1);
+                                $('#price').html('1 ETH = ' + cur_price + ' BYS');
+                            }
+                        })
+                    }
+                })
+
+				$('.agreemant span').on('click',function() {
+					if(!$('.agreemant span').hasClass('active')) {
+						$('.agreemant span').addClass('active');
+					} else {
+						$('.agreemant span').removeClass('active');
+					}
+				})
+
+				$('body').on('click','.buy-btn',function() {
+					var email = $('input[id=email]').val();
+					var type = $('select').val();
+					var send_address = $('input[id=send_address]').val();
+					var get_address = $('input[id=get_address]').val();
+
+					if(!email || !type || !send_address || !get_address) {
+						alertText('Please perfect the information');
+						return;
+
+					} else if(!/^[a-z0-9]+([._\\-]*[a-z0-9])*@([a-z0-9]+[-a-z0-9]*[a-z0-9]+.){1,63}[a-z0-9]+$/.test(email)) {
+						alertText('Mailbox format is wrong');
+						return;
+					} else if(!$('.agreemant span').hasClass('active')) {
+						alertText('Please agree with the terms');
+						return;
+					} else {
+						$.ajax({
+							url: 'http://www.tigerminner.com/api/icoInfo',
+							type: 'POST',
+							dataType: 'json',
+							data: {
+								'email': email,
+								'type': type,
+								'send_wallet_address': send_address,
+								'receive_wallet_address': get_address,
+							},
+							success: function(data) {
+								if(data.status || data.message) {
+									alertText('Submission of success');
+									setTimeout(function() {
+										window.location.href = '../course/course_chf.html';
+									},1500);
+									
+								}
+							},
+							error: function(msg) {
+								console.log('error',msg);
+							}
+						})
+					}
+				})
+
+				function alertText(text) {
+					$('.alert-box').fadeIn();
+					$('.alert-box').find('.text').html(text);
+					setTimeout(function() {
+						$('.alert-box').fadeOut();
+					},1500)
+				}
+
+                // 语言
+
+                $('.lang span').on('click',function() {
+                    if(/iPhone/i.test(navigator.userAgent)) {
+                        if($(this).hasClass('active')) {
+                            $(this).removeClass('active').siblings().hide();
+                        } else {
+                            $(this).addClass('active').siblings().show();
+                        }   
+                    }
+                });
+                
+
+                // $('.lang li').click(function() {
+                //     var id = $(this).attr('id');
+                //     var html = $(this).html();
+                //     switch (id) {
+                //         case 'en':
+                //             $('.lang span').html(html);
+                //             $('body').addClass('en');
+                //             location.href = "buy.html";
+                //             break;
+                //         case 'hy':
+                //             $('.lang span').html(html);
+                //             $('body').addClass('hy');
+                //             location.href = "buy_hy.html";
+                //             break;
+                //         case 'ry':
+                //             $('.lang span').html(html);
+                //             $('body').addClass('ry');
+                //             location.href = "buy_ry.html";
+                //             break;
+                //         case 'ey':
+                //             $('.lang span').html(html);
+                //             $('body').addClass('ey');
+                //             location.href = "buy_ey.html";
+                //             break;
+                //         case 'xy':
+                //             $('.lang span').html(html);
+                //             $('body').addClass('xy');
+                //             location.href = "buy_xy.html";
+                //             break;
+                //         case 'ch':
+                //             $('.lang span').html(html);
+                //             $('body').addClass('ch');
+                //             location.href = "buy_ch.html";
+                //             break;
+                //         case 'ch_f':
+                //             $('.lang span').html(html);
+                //             $('body').addClass('ch_f');
+                //             location.href = "buy_chf.html";
+                //             break;
+                //         case 'py':
+                //             $('.lang span').html(html);
+                //             $('body').addClass('py');
+                //             location.href = "buy_py.html";
+                //             break;
+                //     }
+                // })
+            }
+        });
+        new Vue({
+            el: '#app',
+        });
+    </script>
+</body>
+
+</html>

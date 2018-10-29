@@ -1,0 +1,480 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>dapp-lottery2</title>
+    <meta name="description" content="description">
+    <meta name="keywords" content="keywords">
+    <link rel="stylesheet" href="dist/bootstrap/css/bootstrap.min.css">
+    <link rel="stylesheet" href="dist/css/dapp_pro.css">
+</head>
+
+<body class="dapp lottery2-game">
+    <div id="app">
+        <app-component></app-component>
+    </div>
+    <script id="app-template" type="text/x-template">
+        <div>
+            <div class="fixed-bg"></div>
+            <header>
+                <div class="content">
+                    <div class="logo">
+                        <a href="index.html"></a>
+                    </div>
+                    <div class="nav">
+                        <ul class="nav-list" id="menu">
+                            <li><a href="index.html">Home</a></li>
+                            <!-- <li><a href="#">玩法介绍</a></li> -->
+                            <li><a href="javascript:;" class="history">History</a></li>
+                        </ul>
+                        <!-- <div class="lang">
+                            <span>CH</span>
+                            <ul>
+                                <li id="en">EN</li>
+                                <li id="ch">CH</li>
+                            </ul>
+                        </div> -->
+                    </div>
+                </div>
+            </header>
+            <div class="container" id="game">
+                <div class="tabs">
+                    <ul>
+                        <li class="active">开始游戏</li>
+                        <li>规则</li>
+                        <li>历史</li>
+                    </ul>
+                </div>
+                <div class="game-container">
+                    <h4 class="title">
+                        <p>现在头奖金额<span> 3 ETH</span>(￥12035.5)</p>
+                        <span class="counts">次数 188 / 开奖中...</span>
+                    </h4>
+                    <div class="choose-box">
+                        <div class="list">
+                            <div class="box">
+                                <i></i>
+                                <i></i>
+                                <i></i>
+                                <i></i>
+                                <div class="boll-box">
+                                    <span>4</span>
+                                    <span>20</span>
+                                </div>
+                                <div class="intro-name">
+                                    <h4>彩票<span>1</span></h4>
+                                    <p>请选择4个号码</p>
+                                </div>
+                                <div class="boll-list">
+                                    <span v-for="item in bolls">{{item}}</span>
+                                </div>
+                                <div class="random-box">幸运数字 <span></span></div>
+                            </div>
+                        </div>
+                        <div class="pay-btn">祝我好运</div>
+                        <div class="add-buy">+继续购买</div>
+                    </div>
+                    <div class="rules-box">
+                        
+                    </div>
+                    <div class="history-box">
+
+                    </div>
+                </div>
+            </div>
+            <div class="mask notice-mask">
+                <div class="mask-tips">
+                    <!-- <span class="close-btn"></span> -->
+                    <h4>Tips</h4>
+                    <p></p>
+                    <a href="javascript:;" class="sure-btn">OK</a>
+                </div>
+            </div>
+        </div>
+    </script>
+    <script src="dist/js/jquery.min.js"></script>
+    <script src="dist/js/vue.min.js"></script>
+    <script src="dist/web3/web3.min.js"></script>
+    <!-- <script src="https://cdn.bootcss.com/bignumber.js/7.0.0/bignumber.min.js"></script> -->
+    <script>
+        Vue.component('app-component', {
+            template: '#app-template',
+            data() {
+                return {
+                    bolls: [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20],
+                    switch: true,
+                    no1: 0,
+                    no2: 0,
+                    no3: 0,
+                    no4: 0,
+                    no5: 0,
+                    no6: 0,
+                    numbers: [],
+                    bet: 0.01,
+                    minBet: 0,
+                    maxBet: 0,
+                    account: '',
+                    roundNO: 0,
+                    winValue: 0,
+                    myOrders: [],
+                    historyDatas: [],
+                    expects: [7000000,20000,500,25,3,0],
+                    address: "0xdE288B8e36894336f5Cad78F3a088B9A565b4eC9",
+                    abi: [{"constant":true,"inputs":[],"name":"roundNO","outputs":[{"name":"","type":"uint256"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":true,"inputs":[],"name":"lastBlockNumber","outputs":[{"name":"","type":"uint256"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":true,"inputs":[],"name":"bIsActive","outputs":[{"name":"","type":"bool"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":true,"inputs":[],"name":"lotteryPools","outputs":[{"name":"","type":"uint256"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":true,"inputs":[],"name":"maxBet","outputs":[{"name":"","type":"uint256"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":false,"inputs":[{"name":"_isActive","type":"bool"}],"name":"changeGameState","outputs":[],"payable":false,"stateMutability":"nonpayable","type":"function"},{"constant":true,"inputs":[],"name":"curBlockNumber","outputs":[{"name":"","type":"uint256"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":true,"inputs":[{"name":"","type":"address"}],"name":"wallets","outputs":[{"name":"balance","type":"uint256"},{"name":"lastDividendPeriod","type":"uint256"},{"name":"nextWithdrawTime","type":"uint256"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":true,"inputs":[],"name":"owner","outputs":[{"name":"","type":"address"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":true,"inputs":[],"name":"minBet","outputs":[{"name":"","type":"uint256"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":false,"inputs":[],"name":"payWallet","outputs":[],"payable":false,"stateMutability":"nonpayable","type":"function"},{"constant":true,"inputs":[{"name":"a","type":"uint256"},{"name":"b","type":"uint256"}],"name":"safeSub","outputs":[{"name":"c","type":"uint256"}],"payable":false,"stateMutability":"pure","type":"function"},{"constant":true,"inputs":[{"name":"a","type":"uint256"},{"name":"b","type":"uint256"}],"name":"safeDiv","outputs":[{"name":"c","type":"uint256"}],"payable":false,"stateMutability":"pure","type":"function"},{"constant":true,"inputs":[],"name":"winValue","outputs":[{"name":"","type":"uint256"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":true,"inputs":[{"name":"","type":"address"}],"name":"lotteryPlayer","outputs":[{"name":"value","type":"uint256"},{"name":"lotteryHash","type":"uint32"},{"name":"blockNum","type":"uint256"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":true,"inputs":[],"name":"walletBalance","outputs":[{"name":"","type":"uint256"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":true,"inputs":[{"name":"a","type":"uint256"},{"name":"b","type":"uint256"}],"name":"safeMul","outputs":[{"name":"c","type":"uint256"}],"payable":false,"stateMutability":"pure","type":"function"},{"constant":true,"inputs":[{"name":"a","type":"uint256"},{"name":"b","type":"uint256"}],"name":"safeAdd","outputs":[{"name":"c","type":"uint256"}],"payable":false,"stateMutability":"pure","type":"function"},{"constant":false,"inputs":[{"name":"_playerhash","type":"uint24"}],"name":"BuyLottery","outputs":[],"payable":true,"stateMutability":"payable","type":"function"},{"constant":false,"inputs":[],"name":"ownerWithdrawal","outputs":[],"payable":false,"stateMutability":"nonpayable","type":"function"},{"constant":false,"inputs":[{"name":"_newOwner","type":"address"}],"name":"transferOwnership","outputs":[],"payable":false,"stateMutability":"nonpayable","type":"function"},{"inputs":[],"payable":false,"stateMutability":"nonpayable","type":"constructor"},{"anonymous":false,"inputs":[{"indexed":true,"name":"player","type":"address"},{"indexed":false,"name":"bethash","type":"uint24"},{"indexed":false,"name":"hash","type":"uint24"},{"indexed":false,"name":"roundNO","type":"uint256"},{"indexed":false,"name":"betsize","type":"uint256"},{"indexed":true,"name":"prize","type":"uint256"}],"name":"LogBet","type":"event"},{"anonymous":false,"inputs":[{"indexed":true,"name":"_from","type":"address"},{"indexed":true,"name":"_to","type":"address"}],"name":"OwnershipTransferred","type":"event"}],
+                }
+            },
+            created() {
+                var vm = this;
+            },
+            watch: {},
+            methods: {
+                noticeText: function(text) {
+                    $('.notice-mask').show();
+                    $('.mask-tips').find('p').html(text);
+                },
+                contract: function(contractInstance) {
+                    var vm = this;
+
+                    //查询数据 minBet 最小赌注
+                    var minBet = contractInstance.minBet.call(function(error, res){
+                        if (!error) {
+                            // console.log('minBet',eval("("+res+")") / Math.pow(10,18));
+
+                        }
+                    })
+
+                    //查询数据 maxBet 最大赌注
+                    var maxBet = contractInstance.maxBet.call(function(error, res){
+                        if (!error) {
+                            // console.log('maxBet',eval("("+res+")") / Math.pow(10,18));
+                        }
+                    })
+
+                    //查询数据 bIsActive 游戏激活关闭状态
+                    var bIsActive = contractInstance.bIsActive.call(function(error, res){
+                        if (!error) {
+                            // console.log('bIsActive',res);
+                        }
+                    })
+
+                    //查询数据 roundNO 游戏轮数
+                    var roundNO = contractInstance.roundNO.call(function(error, res){
+                        if (!error) {
+                            console.log('roundNO',eval("("+res+")"));
+                            vm.roundNO = eval("("+res+")");
+                        }
+                    })
+                    
+                    //查询数据 lotteryPools
+                    var lotteryPools = contractInstance.lotteryPools.call(function(error, res){
+                        if (!error) {
+                            // console.log('lotteryPools',eval("("+res+")"));
+                        }
+                    })
+                },
+                accAdd: function(arg1, arg2) {
+                    var r1, r2, m, c;  
+                    try { r1 = arg1.toString().split(".")[1].length } catch (e) { r1 = 0 }  
+                    try { r2 = arg2.toString().split(".")[1].length } catch (e) { r2 = 0 }  
+                    c = Math.abs(r1 - r2);  
+                    m = Math.pow(10, Math.max(r1, r2))  
+                    if (c > 0) {  
+                        var cm = Math.pow(10, c);  
+                        if (r1 > r2) {  
+                            arg1 = Number(arg1.toString().replace(".", ""));  
+                            arg2 = Number(arg2.toString().replace(".", "")) * cm;  
+                        }  
+                        else {  
+                            arg1 = Number(arg1.toString().replace(".", "")) * cm;  
+                            arg2 = Number(arg2.toString().replace(".", ""));  
+                        }  
+                    }  
+                    else {  
+                        arg1 = Number(arg1.toString().replace(".", ""));  
+                        arg2 = Number(arg2.toString().replace(".", ""));  
+                    }  
+                    return (arg1 + arg2) / m 
+                },
+                accSub: function(arg1,arg2) {
+                    var r1,r2,m,n;  
+                    try{r1=arg1.toString().split(".")[1].length}catch(e){r1=0}  
+                    try{r2=arg2.toString().split(".")[1].length}catch(e){r2=0}  
+                    m=Math.pow(10,Math.max(r1,r2));  
+                    //last modify by deeka  
+                    //动态控制精度长度  
+                    n=(r1>=r2)?r1:r2;  
+                    return ((arg1*m-arg2*m)/m).toFixed(n);
+                },
+                randomNum: function(arr,num) {
+                    var vm = this;
+                    //新建一个数组,将传入的数组复制过来,用于运算,而不要直接操作传入的数组;
+                    var temp_array = new Array();
+                    for (var index in arr) {
+                        temp_array.push(arr[index]);
+                    }
+                    //取出的数值项,保存在此数组
+                    var return_array = new Array();
+                    for (var i = 0; i<num; i++) {
+                        //判断如果数组还有可以取出的元素,以防下标越界
+                        if (temp_array.length>0) {
+                            //在数组中产生一个随机索引
+                            var arrIndex = Math.floor(Math.random()*temp_array.length);
+                            //将此随机索引的对应的数组元素值复制出来
+                            return_array[i] = temp_array[arrIndex];
+                            //然后删掉此索引的数组元素,这时候temp_array变为新的数组
+                            temp_array.splice(arrIndex, 1);
+                        } else {
+                            //数组中数据项取完后,退出循环,比如数组本来只有10项,但要求取出20项.
+                            break;
+                        }
+                    }
+                    return return_array;
+                },
+                splitNum: function(num) {
+                    var vm = this;
+                    var arr = [];
+                    arr = num.split('');
+                    if(arr.length < 6) {
+                        var len = arr.length;
+                        for(var n= 0; n < 6 - len; n++) {
+                            arr.unshift('0');
+                        }
+                    }
+                    for(var i = 0;i< arr.length;i++) {
+                        arr[i] = parseInt(arr[i],16);
+                    }
+                    return arr;
+                },
+                getDatas: function(events) {
+                    var vm = this;
+                    events.get(function(error, logs){
+
+                        vm.myOrders = [];
+
+                        if(!error) {
+                            for(var i = 0;i< logs.length;i++) {
+
+                                logs[i].args.bethash = vm.splitNum(eval("(" + logs[i].args.bethash + ")").toString(16));
+                                logs[i].args.hash = vm.splitNum(eval("(" + logs[i].args.hash + ")").toString(16));
+
+                                vm.historyDatas.unshift(logs[i].args);
+
+                                if(logs[i].args.player == vm.account[0]) {
+
+                                    vm.myOrders.unshift(logs[i].args);
+                                }
+                            }
+                        } else {
+                            console.log('error',error)
+                        }
+                    });
+                }
+            },
+            mounted() {
+                var vm = this;
+
+                if (typeof web3 !== 'undefined') {                                           
+                    window.web3 = new Web3(web3.currentProvider);
+                } else {                                                           
+                    window.web3 = new Web3(new Web3.providers.HttpProvider('https://kovan.infura.io')); 
+                }
+
+                // 返回当前节点持有的帐户列表
+                web3.eth.getAccounts(function(error,res) {
+                    console.log('account',res);
+                    vm.account = res;
+                });
+
+                //  实时监测账号变化
+                var account = setInterval(function() {
+                    web3.eth.getAccounts(function(error,res) {//异步
+                        if(vm.account[0] && vm.account[0] != res[0]) {
+                            vm.account = res;
+                            vm.getDatas(events);
+                            $('body').find('.get-bet').html('');
+                        }
+                    });
+                },100)
+
+                // 合约实例化
+                var MyContract = web3.eth.contract(vm.abi);
+                var contractInstance = MyContract.at(vm.address);
+                vm.contract(contractInstance);
+
+
+                // 下注交易
+                $('body').on('click','.ok-btn',function() {
+                    vm.numbers = ['0X',vm.no1.toString(16),vm.no2.toString(16),vm.no3.toString(16),vm.no4.toString(16),vm.no5.toString(16),vm.no6.toString(16)];
+                    var str = vm.numbers.join('');
+                    var value = parseInt(str,16);
+
+                    web3.eth.getAccounts(function(error,res) {
+                        vm.account = res;
+                        
+                        if(vm.switch && vm.bet >= 0.01) {
+                            if(!vm.account[0]) {
+                                vm.noticeText('Please login meataMask !');
+                                return;
+                            } else {
+                                vm.switch = false;
+                                contractInstance.BuyLottery.sendTransaction(value,{from: vm.account[0] ,value:vm.bet * Math.pow(10,18)},function(error,result) {
+                                    console.log('res',result);
+                                    if(result) {
+                                        $('body').find('.get-bet').html('<p class="sending">您的交易 '+ result +' 正在发送中  <span></span></p>');
+                                    } else {
+                                        vm.switch = true;
+                                        $('body').find('.get-bet').html('');
+                                    }
+                                })
+                            }
+                        } else {
+                            if(vm.bet < 0.01) {
+                                vm.noticeText('下注金额最小为0.01EHT');
+                            } else if(!vm.switch) {
+                                vm.noticeText('游戏正在进行中，请稍等');
+                            }
+                        }
+                    })
+                })
+
+
+                //监听合约中的交易事件
+                var LogBet_Event = contractInstance.LogBet();
+
+                LogBet_Event.watch(function(error,result) {
+                    if(!error) {
+                        if(result.args.player == vm.account[0] && eval('('+ result.args.roundNO +')') != vm.roundNO ) {
+                            console.log('LogBet_Event:',result);
+
+                            vm.myOrders.unshift(result.args);
+                            vm.contract(contractInstance);
+                            vm.switch = true;
+
+                            contractInstance.winValue(vm.roundNO,function(error, res){
+                                if (!error) {
+                                    console.log('winValue',eval("("+res+")"));
+                                    vm.winValue = eval("("+res+")") / Math.pow(10,18);
+                                    if(vm.winValue) {
+                                        $('body').find('.get-bet').html('<p class="win">恭喜您，获得了<span>'+ vm.winValue +'ETH</span>您所赢得的BYS 已放入您的钱包</p>');
+                                    } else {
+                                        $('body').find('.get-bet').html('<p class="loss">很遗憾，您没有中奖，继续努力哦！</p>');
+                                    }
+                                }
+                            })
+                        }
+
+                        if(vm.roundNO != eval('('+ result.args.roundNO +')')) {
+                            result.args.bethash = vm.splitNum(eval("(" + result.args.bethash + ")").toString(16));
+                            result.args.hash = vm.splitNum(eval("(" + result.args.hash + ")").toString(16));
+                            vm.historyDatas.unshift(result.args);
+                        }
+                    }
+                })
+
+                // 获取logbet历史数据
+                var events = contractInstance.LogBet({some: 'args'},{fromBlock: 0, toBlock: 'latest'});
+                vm.getDatas(events);
+
+
+                // 用户选号操作
+                $('body').on('click','.boll-list span',function() {
+                    var o = $(this);
+                    if(o.parent().children('.active').length < 4 || o.hasClass('active')) {
+                        if(o.hasClass('active')) {
+                            o.removeClass('active');
+                        } else {
+                            o.addClass('active');
+                        }
+                    } else {
+                        return;
+                    }    
+                })
+                
+                // 随机球
+                $('body').on('click','.random-box span',function() {
+                    var o = $(this);
+                    o.parent().siblings('.boll-list').children('.active').removeClass('active');
+                    var random_num = vm.randomNum(vm.bolls,4);
+                    var arr_bolls = o.parent().siblings('.boll-list').children('span');
+                    for(var i = 0; i < random_num.length; i++) {
+                        $(arr_bolls[random_num[i] - 1]).addClass('active');
+                    }
+                })
+                
+                // 继续购买
+                var lootery_count = 1;
+                $('body').on('click','.add-buy',function() {
+                    lootery_count += 1;
+                    $('.choose-box .list').append('<div class="box">'+
+                                '<i></i>'+
+                                '<i></i>'+
+                                '<i></i>'+
+                                '<i></i>'+
+                                '<div class="boll-box">'+
+                                    '<span>4</span>'+
+                                    '<span>20</span>'+
+                                '</div>'+
+                                '<div class="intro-name">'+
+                                    '<h4>彩票<span>'+ lootery_count +'</span></h4>'+
+                                    '<p>请选择4个号码</p>'+
+                                '</div>'+
+                                '<div class="boll-list">'+
+                                    '<span>1</span><span>2</span><span>3</span><span>4</span><span>5</span><span>6</span><span>7</span><span>8</span><span>9</span><span>10</span><span>11</span><span>12</span><span>13</span><span>14</span><span>15</span><span>16</span><span>17</span><span>18</span><span>19</span><span>20</span>'+
+                                '</div>'+
+                                '<div class="random-box">幸运数字 <span></span></div>'+
+                            '</div>')
+                    
+                })
+
+
+
+                $('body').on('click','.dapp-btn',function() {
+                   $('.dropdown-menu').fadeIn('slow');
+                })
+
+                document.addEventListener('click',function(e) {
+                    $('.dropdown-menu').hide();
+                    $('.notice-mask').hide();
+                },true);
+
+                $('body').on('click','.sure-btn',function() {
+                    $('.notice-mask').hide();
+                })
+
+                // nav 导航栏
+                $('body').on('click','.tabs-nav li',function() {
+                    if(!$(this).hasClass('active')) {
+                        $(this).addClass('active').siblings('li').removeClass('active');
+                    }
+
+                    var showname = $(this).attr('name');
+                    switch (showname) {
+                        case 'tab1':
+                            $('#box1').show().siblings().hide();
+                            break;
+                        case 'tab2':
+                            $('#box2').show().siblings().hide();
+                            break;
+                        case 'tab3':
+                            $('#box3').show().siblings().hide();
+                            break;
+                        case 'tab4':
+                            $('#box4').show().siblings().hide();
+                            break;
+                        case 'tab5':
+                            $('#box5').show().siblings().hide();
+                            break;
+                    }
+                })
+            }
+        });
+        new Vue({
+            el: '#app',
+        });
+    </script>
+</body>
+
+</html>

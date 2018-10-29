@@ -1,0 +1,1120 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <title>bayes-ICO</title>
+    <meta name="description" content="description">
+    <meta name="keywords" content="keywords">
+    <link rel="icon" href="favicon.ico" type="image/x-icon" />
+    <!-- <link rel="stylesheet" href="dist/css/jquery.fullPage.css"> -->
+    <link rel="stylesheet" href="dist/css/common.css">
+    <link rel="stylesheet" href="dist/css/index_pro.css">
+    <link rel="stylesheet" href="dist/bootstrap/css/bootstrap.min.css">
+</head>
+
+<body class="index xy">
+    <div id="app" style="height:100%;">
+        <app-component></app-component>
+    </div>
+    <script id="app-template" type="text/x-template">
+        <div style="height:100%;">
+            <div class="main-content">
+                <header>
+                    <!-- 顶部提示公告 -->
+                    <div class="top-notice"><p></p><span class="top-close"></span></div>
+                    <div class="content row">
+                        <div class="logo">
+                            <a href="/"></a>
+                        </div>
+                        <div class="nav">
+                            <ul class="nav-list" id="menu">
+                                <li><a href="#service">{{ datas.nav.nav_list[0] }}</a></li>
+                                <li><a href="#about">{{ datas.nav.nav_list[1] }}</a></li>
+                                <li><a href="#intro">{{ datas.nav.nav_list[2] }}</a></li>
+                                <li><a href="#road-map">{{ datas.nav.nav_list[3] }}</a></li>
+                                <li><a href="#token-info">{{ datas.nav.nav_list[4] }}</a></li>
+                                <li><a href="#team">{{ datas.nav.nav_list[5] }}</a></li>
+                            </ul>
+                            <span class="target"></span>
+                            <div class="lang">
+                                <span>El español</span>
+                                <ul>
+                                    <li id="en">English</li>
+                                    <li id="jp">កម្ពុជា</li>
+                                    <li id="hy">한국어</li>
+                                    <li id="ry">日本語</li>
+                                    <li id="ey">русский язык</li>
+                                    <li id="xy">El español</li>
+                                    <li id="ch">简体中文</li>
+                                    <li id="ch_f">繁體中文</li>
+                                    <li id="py">Português</li>
+                                </ul>
+                            </div>
+                            <div class="nav-right">
+                                <div class="buy-button">
+                                    <a href="javascirpt:;" class="dapp-btn">{{ datas.nav.button[0] }}
+                                        <div class="dapp-box">
+                                            <ul>
+                                                <li><a href="/dapp/dapp_lottery2.html" class="dapp-lottery2"></li>
+                                                <li><a href="play.html" class="dapp-avatar"></li>
+                                                <li><a href="dapp_tigger.html" class="dapp-tigger"></a></li>
+                                                <li><a href="dapp_lottery.html" class="dapp-lottery"></li>
+                                                <li><a href="dapp_wheel.html" class="dapp-wheel"></li>
+                                            </ul>
+                                        </div>
+                                    </a>
+                                </div>
+                                <div class="buy-button">
+                                    <a href="dist/imgs/BYS_whiterpaper.pdf" target="_blank">{{ datas.nav.button[1] }}</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </header>
+                <div class="container-box">
+                    <div v-show=" ico_data.perDeadLine - ico_data.nowtime > 0 " class="private-time">
+                        <div class="">
+                            <h4>距离ICO开始还剩</h4>
+                            <p></p>
+                        </div>
+                    </div>  
+                    <!-- 首屏欢迎 -->
+                    <div class="welcome">
+                        <div class="content-box">
+                            <div class="welcome-header">
+                                <h2>{{ datas.welcome.w_t_1 }}</h2>
+                                <P>{{ datas.welcome.w_t_2 }}</P>
+                                <h1>{{ datas.welcome.w_t_3 }}</h1>
+                            </div>
+                            <hr>
+                            <div class="time-box">
+                                <h4>{{ datas.welcome.w_t_4 }}</h4>
+                                <ul>
+                                    <li class="d-show time-show">00</li>
+                                    <li class="h-show time-show">00</li>
+                                    <li class="m-show time-show">00</li>
+                                    <li class="s-show time-show">00</li>
+                                </ul>
+                            </div>
+                            <div class="info-box">
+                                <p>
+                                    <span>{{ datas.welcome.w_t_5 }}</span>
+                                    <span>{{ ico_data.tokenAmountRasied }} {{ datas.welcome.w_t_6 }}</span>
+                                </p>
+                                <h4>1 BYS price: $ {{ BYS_USD }}</h4>
+                            </div>
+                            <div class="progress-box">
+                                <div class="left"><i>0 eth</i></div>
+                                <div class="min" v-bind:style="{left: (ico_data.minGoal / ico_data.maxGoal) * 100 + '%'}"><i>{{ico_data.minGoal}} eth</i></div>
+                                <div class="max"><i>{{ico_data.maxGoal}} eth</i></div>
+                                <div class="scroll-tab"  v-bind:style="{ width: (ico_data.amountRaised / ico_data.maxGoal) > 1 ? 100 + '%' :  (ico_data.amountRaised / ico_data.maxGoal)* 100 + '%' }"><span>{{(ico_data.amountRaised / ico_data.maxGoal) > 1 ? 100 + '%' :  (ico_data.amountRaised / ico_data.maxGoal)* 100 ? parseFloat((ico_data.amountRaised / ico_data.maxGoal)* 100).toFixed(2) + '%' : '0%'}}</span></div>
+                            </div>
+                            <div class="buy-box">
+                                <p>{{ datas.welcome.w_t_7 }}</p>
+                                <a v-show=" ico_data.perDeadLine - ico_data.nowtime < 0 " v-bind:href=" ico_data.crowdsaleClosed || ico_data.freeCrawDeadline - ico_data.nowtime <= 0  ? '/end/end_xy.html' : '/buy/buy_xy.html'" target="_blank" class="buy-bitcon">{{ datas.welcome.w_t_8 }}</a>
+                                <p class="bonus-rate">{{ datas.welcome.w_t_9 }} {{ bouns_rate }}%</p>
+                                <p>{{ datas.welcome.w_t_10 }}</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="circle circle-1"></div>
+                    <div class="circle circle-2"></div>
+                    <div class="circle circle-3"></div>
+                    <div class="circle circle-4"></div>
+                    <div class="circle circle-5"></div>
+                    <div class="random r1"></div>
+                    <div class="random r2"></div>
+                    <div class="random r3"></div>
+                    <div class="random r4"></div>
+                    <div class="random r5"></div>
+                    <div class="random r6"></div>
+                </div>
+                <div class="container">
+                    <span class="round-logo"></span>
+                    <!-- 介绍 -->
+                    <div class="introduct row" id="service">
+                        <div class=" col-md-3 col-sm-6 col-xs-12 ele" v-for="item in datas.introduct.intro_list">
+                            <p><span></span>{{ item }}</p>
+                        </div>
+                    </div>
+                    <!-- 关于我们 -->
+                    <div class="about-us" id="about">
+                        <div class="intro-header row">
+                            <div class="header-left col-md-4 col-sm-12 col-xs-12 ele">
+                                <h4>{{ datas.about.ab_t_2 }} <div class="title-bg"></div></h4>
+                                <p v-html="datas.about.ab_t_3"></p>
+                            </div>
+                            <div class="header-right col-md-8 col-sm-12 col-xs-12 ele">
+                                <p>{{ datas.about.ab_t_4 }}</p>
+                            </div>
+                        </div>
+                        <div class="video-container ele">
+                            <div class="video-img-box">
+                                <span class="video-btn"></span>
+                                <span class="video-btn-in"></span>
+                                <img src="dist/imgs/video-bg.png" alt="">
+                            </div>              
+                        </div>
+                    </div>
+                    <!-- 服务 -->
+                    <div class="service-contanier" id="intro">
+                        <h4 class="title"><span class="ele">{{ datas.service.s_t_1 }}</span></h4>
+                        <div class="server-blocks">
+                            <div class="row">
+                                <div class="col-md-6 col-xs-12 block ele" v-for="item in datas.service.service_list_1">
+                                    <div class="text-box">
+                                        <h4>{{ item.title }}</h4>
+                                        <p>{{ item.des }}</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-6 col-xs-12 block ele" v-for="item in datas.service.service_list_2">
+                                    <div class="text-box">
+                                        <h4>{{ item.title }}</h4>
+                                        <p>{{ item.des }}</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- 路线图 -->
+                    <div class="road-map about-fo a-part" id="road-map">
+                        <span class="bg-box box1"></span>
+                        <span class="bg-box box2"></span>
+                        <span class="bg-box box3"></span>
+                        <span class="bg-box box4"></span>
+                        <span class="bg-box box5"></span>
+                        <span class="bg-box box6"></span>
+
+                        <h4 class="road-title ele">{{ datas.road_map.map_t_1 }}</h4>
+                        <div class="detail por ele">
+                            <div class="btn poa prev dn m2usBtnL"></div>
+                            <div class="btn poa next m2usBtnR"></div>
+                            <div class="in por">
+                                <div class="box poa">
+                                    <div class="time"></div>
+                                    <span class="logo-small">BAYES IN</span>
+                                    <div class="box-in dn">
+                                        <!-- <h4></h4> -->
+                                        <p></p>
+                                    </div>
+                                </div>
+                                <div class="box poa">
+                                    <div class="time"></div>
+                                    <span class="logo-small">BAYES IN</span>
+                                    <div class="box-in dn">
+                                        <!-- <h4></h4> -->
+                                    <p></p>
+                                </div>
+                            </div>
+                                <div class="box poa">
+                                    <div class="time"></div>
+                                    <span class="logo-small">BAYES IN</span>
+                                    <div class="box-in dn">
+                                        <!-- <h4></h4>    -->
+                                        <p></p>
+                                    </div>
+                                </div>
+                                <div class="box poa">
+                                    <div class="time"></div>
+                                    <span class="logo-small">BAYES IN</span>
+                                    <div class="box-in dn">
+                                        <!-- <h4></h4> -->
+                                        <p></p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="list f-cb por ovh time-line">
+                            <ul class="por">
+                                <li v-for="item in datas.road_map.map_list">
+                                    <div class="year">
+                                        <!-- <p>{{ item.title }}</p> -->
+                                        <span>{{ item.year }}</span>
+                                    </div>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <!-- 代币信息 -->
+                    <div class="ico-section" id="token-info" style="clear: both;">
+                        <div class="ico-info">
+                            <div class="pie-chart ele">
+                                <ul>
+                                    <li v-for="(item,index) in map" :id="index" :class="index == 7 ? 'active' : ''">
+                                        <span>{{item}}%</span>
+                                    </li>
+                                </ul>
+                                <div class="show-intro">
+                                    <h4>{{datas.ico_section.chart[7].title}}</h4>
+                                    <p>{{datas.ico_section.chart[7].des}}</p>
+                                </div>
+                            </div>
+                            <div class="info-list">
+                                <h4 class="title ele">
+                                    <span>{{ datas.ico_section.info_t_1 }}</span>
+                                    <p>The distribution and pre sale of the token</p>
+                                </h4>
+                                <ul>
+                                    <li class="ele">
+                                        <h4>{{ datas.ico_section.info_t_2 }}</h4>
+                                        <p>{{ datas.ico_section.info_t_3 }}</p>
+                                    </li>
+                                    <li class="ele">
+                                        <p>{{ datas.ico_section.info_t_4 }}</p>
+                                        <p>{{ datas.ico_section.info_t_5 }}</p>
+                                        <p>{{ datas.ico_section.info_t_6 }}</p>
+                                    </li>
+                                    <li class="ele">
+                                        <p>{{ datas.ico_section.info_t_7 }}</p>
+                                        <p>{{ datas.ico_section.info_t_8 }}</p>
+                                        <p>{{ datas.ico_section.info_t_9 }}</p>
+                                        <p>{{ datas.ico_section.info_t_10 }}</p>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- 团队 -->
+                    <div class="team" id="team">
+                        <h4 class="title">
+                            <span>{{ datas.team.te_t_1 }}</span>
+                            <p>Team</p>
+                        </h4>
+                        <div class="team-list">
+                                <div class="col-md-6 col-sm-12 col-xs-12 ele" v-for="(item,index) in datas.team.list" v-if="index < 4">
+                                    <div class="team-item">
+                                        <img :src="'dist/imgs/team-'+ eval(index + 1) +'.png'" alt="">
+                                        <!-- <em>{{ item.job }}</em> -->
+                                    </div>
+                                </div>   
+                        </div>
+                    </div>
+                    <!-- 页尾 -->
+                    <div class="footer row">
+                        <div class="col-md-6 col-sm-12 col-xs-12">
+                            <div class="content">
+                                <span class="icons"><a href="https://twitter.com/bayes_in"></a></span>
+                                <span class="icons"><a href="https://www.facebook.com/bayes.in.3"></a></span>
+                                <span class="icons"><a href="https://t.me/bayesin"></a></span>
+                                <span class="icons"><a href=""></a></span>
+                                <span class="icons"><a href="https://www.instagram.com/bayeschain/"></a></span>
+                                <span class="icons"><a href="https://bitcointalk.org/index.php?action=profile;u=2308934"></a></span>
+                                <span class="icons"><a href="https://www.reddit.com/user/BayesIn"></a></span>
+                                <span class="icons"><a href=""></a></span>
+                                <span class="icons"><a href="https://github.com/BayesInTeam"></a></span>
+                                <span class="icons"><a href="https://medium.com/@BayesIn"></a></span>
+                            </div>
+                            
+                        </div>
+
+                        <div class="col-md-6 col-sm-12 col-xs-12">
+                            <div class="email-box content">
+                                <input type="email" id="email"  placeholder="email">
+                                <button>{{ datas.footer.fo_t_1 }}</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+      
+            <!-- 视频弹框 -->
+            <div class="mask video-mask" >
+                <span class="close-btn"></span>
+                <div class="mask-video"> 
+                    <video src="dist/imgs/en_v.mp4" controls="controls" id="video" loop="loop" x-webkit-airplay="true" webkit-playsinline="true"></video>
+                </div>
+            </div>
+            <!-- 人物资料 -->
+            <div class="mask team-mask">
+                <div class="mask-video mask-team">
+                    <span class="close-btn"></span>
+                    <p>人物介绍</p>
+                </div>
+            </div>
+        </div>
+    </script>
+    <script src="dist/js/language.js"></script>
+    <script src="dist/js/jquery.min.js"></script>
+    <script src="dist/js/vue.min.js"></script>
+    <script src="dist/web3/web3.min.js"></script>
+    <!-- <script src="dist/js/jquery.fullPage.min.js"></script> -->
+    <script src="dist/js/jquery.easing.js"></script>    
+    <!-- <script src="dist/js/canvas-nest.min.js"></script> -->
+    <script src="dist/js/jquery.transit.js"></script>
+    <script src="dist/js/bocfe.js"></script> 
+    <script>
+        Vue.component('app-component', {
+            template: '#app-template',
+            data() {
+                return {
+                    datas: lang_data.xy,
+                    map: [1,3,2,5,9,15,10,20,35],
+                    number: 4,
+                    title: '',
+                    des: '',
+                    time: '',
+                    ETH_USD: 0,
+                    BYS_USD: 0.066,
+                    rate: 0,
+                    width: 0,
+                    elewidth: 0,
+                    eleleft: 0,
+                    eleheight: 0,
+                    bouns_rate: 0,
+                    Year: [],
+                    ico_data: {
+                        amountRaised: 0,
+                        deadline:0,
+                        maxGoal:0,
+                        minGoal:0,
+                        tokenAmountRasied:0,
+                        freeCrawDeadline: 0,
+                        perDeadLine: 0,
+                        nowtime: 0,
+                        price: 0,
+                        bonus01Start: 0,
+                        bonus01End: 0,
+                        bonus01: 0,
+                        bonus02: 0,
+                        bonus02Start: 0,
+                        bonus02End: 0,
+                        bonus: 0,
+                        crowdsaleClosed: '',
+                        fundingGoalReached: '',
+                    },
+                    address: '0xE8b1B40f2d307bcE891833F46eef1f69560E6926',
+                    abi :[{"constant":true,"inputs":[],"name":"bonus02End","outputs":[{"name":"","type":"uint256"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":false,"inputs":[],"name":"checkGoalReached","outputs":[],"payable":false,"stateMutability":"nonpayable","type":"function"},{"constant":true,"inputs":[],"name":"name","outputs":[{"name":"","type":"string"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":false,"inputs":[{"name":"_spender","type":"address"},{"name":"_tokens","type":"uint256"}],"name":"approve","outputs":[{"name":"success","type":"bool"}],"payable":false,"stateMutability":"nonpayable","type":"function"},{"constant":true,"inputs":[{"name":"","type":"address"}],"name":"fundBalance","outputs":[{"name":"","type":"uint256"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":true,"inputs":[],"name":"totalSupply","outputs":[{"name":"","type":"uint256"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":false,"inputs":[{"name":"_from","type":"address"},{"name":"_to","type":"address"},{"name":"_tokens","type":"uint256"}],"name":"transferFrom","outputs":[{"name":"success","type":"bool"}],"payable":false,"stateMutability":"nonpayable","type":"function"},{"constant":true,"inputs":[],"name":"decimals","outputs":[{"name":"","type":"uint8"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":false,"inputs":[{"name":"_spender","type":"address"},{"name":"_tokens","type":"uint256"}],"name":"approveAndCall","outputs":[{"name":"success","type":"bool"}],"payable":false,"stateMutability":"nonpayable","type":"function"},{"constant":true,"inputs":[],"name":"beneficiary","outputs":[{"name":"","type":"address"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":true,"inputs":[],"name":"tokenAmountRasied","outputs":[{"name":"","type":"uint256"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":true,"inputs":[{"name":"_tokenOwner","type":"address"}],"name":"balanceOf","outputs":[{"name":"balance","type":"uint256"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":true,"inputs":[],"name":"perPrice","outputs":[{"name":"","type":"uint256"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":true,"inputs":[],"name":"bonus","outputs":[{"name":"","type":"uint256"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":false,"inputs":[],"name":"acceptOwnership","outputs":[],"payable":false,"stateMutability":"nonpayable","type":"function"},{"constant":true,"inputs":[],"name":"amountRaised","outputs":[{"name":"","type":"uint256"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":true,"inputs":[],"name":"bonus01Start","outputs":[{"name":"","type":"uint256"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":true,"inputs":[],"name":"freeCrawDeadline","outputs":[{"name":"","type":"uint256"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":true,"inputs":[],"name":"perTokenAmount","outputs":[{"name":"","type":"uint256"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":true,"inputs":[],"name":"owner","outputs":[{"name":"","type":"address"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":true,"inputs":[],"name":"symbol","outputs":[{"name":"","type":"string"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":false,"inputs":[{"name":"target","type":"address"},{"name":"deadline","type":"uint256"}],"name":"managerAccount","outputs":[],"payable":false,"stateMutability":"nonpayable","type":"function"},{"constant":true,"inputs":[],"name":"price","outputs":[{"name":"","type":"uint256"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":true,"inputs":[],"name":"perDeadLine","outputs":[{"name":"","type":"uint256"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":true,"inputs":[],"name":"bonus02Start","outputs":[{"name":"","type":"uint256"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":true,"inputs":[{"name":"a","type":"uint256"},{"name":"b","type":"uint256"}],"name":"safeSub","outputs":[{"name":"c","type":"uint256"}],"payable":false,"stateMutability":"pure","type":"function"},{"constant":true,"inputs":[],"name":"tokenOwner","outputs":[{"name":"","type":"address"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":false,"inputs":[{"name":"_to","type":"address"},{"name":"_tokens","type":"uint256"}],"name":"transfer","outputs":[{"name":"success","type":"bool"}],"payable":false,"stateMutability":"nonpayable","type":"function"},{"constant":true,"inputs":[],"name":"perAmountRaised","outputs":[{"name":"","type":"uint256"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":true,"inputs":[{"name":"a","type":"uint256"},{"name":"b","type":"uint256"}],"name":"safeDiv","outputs":[{"name":"c","type":"uint256"}],"payable":false,"stateMutability":"pure","type":"function"},{"constant":true,"inputs":[],"name":"bonus02","outputs":[{"name":"","type":"uint256"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":true,"inputs":[],"name":"perTokenAmountMax","outputs":[{"name":"","type":"uint256"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":true,"inputs":[],"name":"totalRaised","outputs":[{"name":"","type":"uint256"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":true,"inputs":[],"name":"bonus01","outputs":[{"name":"","type":"uint256"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":true,"inputs":[],"name":"crowdsaleClosed","outputs":[{"name":"","type":"bool"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":true,"inputs":[{"name":"a","type":"uint256"},{"name":"b","type":"uint256"}],"name":"safeMul","outputs":[{"name":"c","type":"uint256"}],"payable":false,"stateMutability":"pure","type":"function"},{"constant":true,"inputs":[],"name":"fundingGoalReached","outputs":[{"name":"","type":"bool"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":true,"inputs":[],"name":"minGoal","outputs":[{"name":"","type":"uint256"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":true,"inputs":[],"name":"newOwner","outputs":[{"name":"","type":"address"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":true,"inputs":[{"name":"_tokenOwner","type":"address"},{"name":"_spender","type":"address"}],"name":"allowance","outputs":[{"name":"remaining","type":"uint256"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":true,"inputs":[{"name":"a","type":"uint256"},{"name":"b","type":"uint256"}],"name":"safeAdd","outputs":[{"name":"c","type":"uint256"}],"payable":false,"stateMutability":"pure","type":"function"},{"constant":true,"inputs":[{"name":"","type":"address"}],"name":"frozenAccountByOwner","outputs":[{"name":"","type":"uint256"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":false,"inputs":[{"name":"_newOwner","type":"address"}],"name":"transferOwnership","outputs":[],"payable":false,"stateMutability":"nonpayable","type":"function"},{"constant":true,"inputs":[],"name":"bonus01End","outputs":[{"name":"","type":"uint256"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":true,"inputs":[],"name":"maxGoal","outputs":[{"name":"","type":"uint256"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":false,"inputs":[],"name":"safeWithdrawal","outputs":[],"payable":false,"stateMutability":"nonpayable","type":"function"},{"inputs":[],"payable":false,"stateMutability":"nonpayable","type":"constructor"},{"payable":true,"stateMutability":"payable","type":"fallback"},{"anonymous":false,"inputs":[{"indexed":false,"name":"_beneficiary","type":"address"},{"indexed":false,"name":"_amountRaised","type":"uint256"}],"name":"GoalReached","type":"event"},{"anonymous":false,"inputs":[{"indexed":false,"name":"_backer","type":"address"},{"indexed":false,"name":"_amount","type":"uint256"},{"indexed":false,"name":"_isContribution","type":"bool"}],"name":"FundTransfer","type":"event"},{"anonymous":false,"inputs":[{"indexed":false,"name":"target","type":"address"},{"indexed":false,"name":"deadline","type":"uint256"}],"name":"FrozenAccount","type":"event"},{"anonymous":false,"inputs":[{"indexed":true,"name":"_from","type":"address"},{"indexed":true,"name":"_to","type":"address"}],"name":"OwnershipTransferred","type":"event"},{"anonymous":false,"inputs":[{"indexed":true,"name":"from","type":"address"},{"indexed":true,"name":"to","type":"address"},{"indexed":false,"name":"tokens","type":"uint256"}],"name":"Transfer","type":"event"},{"anonymous":false,"inputs":[{"indexed":true,"name":"tokenOwner","type":"address"},{"indexed":true,"name":"spender","type":"address"},{"indexed":false,"name":"tokens","type":"uint256"}],"name":"Approval","type":"event"}],
+                }
+            },
+            created() {
+                var vm = this;
+                // 获取服务器时间
+                $.ajax({
+                    url: 'http://www.tigerminner.com/read/retime.php',
+                    dataType: 'jsonp',
+                    type: "GET",
+                    jsonp:'jsoncallback',
+                    async: false,
+                    success: function(data) {
+                        if(data.nowtime) {
+                            vm.ico_data['nowtime'] = data.nowtime; 
+                        }
+                    },
+                    error: function(msg) {
+                        console.log('error',msg);
+                    }
+                });
+
+                 // 获取ETH 对 $ 价格
+                 $.ajax({
+                    url: 'https://data.block.cc/api/v1/exchange_rate?symbols=USD&base=ETH',
+                    dataType: 'jsonp',
+                    type: "GET",
+                    crossDomain: true,
+                    success: function(data) {
+                        if(data.message == "success") {
+                            vm.ETH_USD = data.data.rates.USD;
+                        }
+                    },
+                    error: function(msg) {
+                        console.log('error',msg);
+                    }
+                });
+            },
+            watch: {
+                
+            },
+            methods: {
+                renderMap: function() {
+                    var vm = this;  
+                    _PreLoadImg([
+                        "dist/img/icon-arrow.png" 
+                    ],function(){
+                        // 初始化
+                        $(".a-part").each(function(){
+                            $(this).height(420)
+                            FullBg($(this), $(this).find("img.bg"))
+                        })
+                        
+                        // ABOUT PART FOURTH
+                        $(".about-fo .main").css("top", ($(window).height() - 572) / 2 )
+
+                        $(".about-fo .box").each(function(){
+                            $(this).find(".box-in").css("padding-top", 138 - $(this).find(".box-in").height() / 2 )
+                        })
+                        var $In    = $(".about-fo .detail .in"),
+                            InBl   = true,
+                            a      = 6,
+                            b      = 0,
+                            $FoUl  = $(".about-fo .list ul"),
+                            $FoLi  = $(".about-fo .list li")
+
+                        // $FoUl.width($FoLi.width() * $FoLi.length);
+                        $FoLi.eq(6).addClass("cur");
+
+                        var cura  = $(".about-fo .list li.cur").index()
+
+                        $(".about-fo .box:last .time").html(vm.Year[cura][0][0]).siblings().children().html(vm.Year[cura][0][1])
+                        $(".about-fo .box:last .box-in").show().css("padding-top", 138 - $(".about-fo .box:last .box-in").height() / 2 )
+                        $(".about-fo .next").click(function(e){
+                            
+                            $(".about-fo .prev").stop().fadeIn(500);
+                            if(!InBl){
+                                return
+                            }
+                            InBl = false;
+                            if(a == vm.Year.length){
+                                InBl = true
+                                b = vm.Year[a - 1].length
+                                return
+                            }
+                            b ++ ;
+                            if(b == vm.Year[a].length){
+                                b = 0
+                                a ++
+                                /*if(a > 4 && a < Year.length){
+                                    $FoUl.stop().animate({marginLeft: - 166 * (a - 4)}, 500)
+                                }*/
+                                $FoLi.eq(a).addClass("cur").siblings().removeClass("cur")
+                            }
+                            if(a == vm.Year.length - 1 && b == vm.Year[a].length - 1){
+                                $(this).stop().fadeOut(500);
+                            }
+                            if(a == vm.Year.length){
+                                InBl = true
+                                return
+                            }
+                            var $list = '<div class="box poa dn"><div class="time"></div><span class="logo-small">BAYES IN</span><div class="box-in dn"><p></p></div></div>'
+                            $In.find(".box").eq(0).before($list)
+                            $In.find(".box").eq(0).css({
+                                y : -96,
+                                scale : 0.55,
+                                opacity : 0.4
+                            })
+                            $In.find(".box").eq(4).stop().animate({
+                                top : 26,
+                                opacity : 0
+                            }, 500).prev().stop().transition({
+                                y : 0,
+                                scale : 1,
+                                opacity : 1
+                            }, 500).find(".box-in").stop().fadeIn(600).siblings(".time").html(vm.Year[a][b][0]).siblings().children().html(vm.Year[a][b][1])
+                            $In.find(".box").eq(3).find(".box-in").css("padding-top", 88 - $In.find(".box").eq(3).find(".box-in").height() / 2)
+                            $In.find(".box").eq(2).stop().transition({
+                                y : -32,
+                                scale : 0.85,
+                                opacity : 0.8
+                            }, 500).prev().stop().transition({
+                                y : -64,
+                                scale : 0.7,
+                                opacity : 0.6
+                            }, 500).prev().stop().fadeIn(500, function(){
+                                $In.find(".box").eq(4).remove()
+                                InBl = true
+                            })
+                        })
+                        $(".about-fo .prev").click(function(){
+                            $(".about-fo .next").stop().fadeIn(500);
+                            if(!InBl){
+                                return
+                            }
+                            InBl = false;
+                            if(a == 0 && b == 0){
+                                InBl = true;
+                                return
+                            }
+                            if(a == vm.Year.length){
+                                a -- 
+                                b --
+                            }
+                            b --
+                            if(a == 0 && b == 0){
+                                $(this).stop().fadeOut(500);
+                            } 
+                            if(b == - 1 ){
+                                if(a > 0){
+                                    a --
+                                    /*if(a >= 4){
+                                        $FoUl.stop().animate({marginLeft: - 166 * (a - 4)}, 500)
+                                    }*/
+                                    $FoLi.eq(a).addClass("cur").siblings().removeClass("cur")
+                                }
+                                b = vm.Year[a].length - 1
+                            }     
+                            var $list = '<div class="box poa fif dn"><div class="time"></div><span class="logo-small">BAYES IN</span><div class="box-in dn"><p></p></div></div>'
+                            $In.find(".box:last").after($list)
+                            $In.find(".box").eq(0).stop().fadeOut(500).next().stop().transition({
+                                y : - 96,
+                                scale : 0.55,
+                                opacity : 0.4
+                            }, 500).next().stop().transition({
+                                y : -64,
+                                scale : 0.7,
+
+                                opacity : 0.6
+                            }, 500).next().stop().transition({
+                                y : -32,
+                                scale : 0.85,
+                                opacity : 0.8
+                            }, 500).next().stop().fadeIn(600).find(".box-in").stop().fadeIn(600).siblings(".time").html(vm.Year[a][b][0]).siblings().children().html(vm.Year[a][b][1])
+                            $In.find(".box").eq(4).stop().animate({
+                                top : 0,
+                                opacity : 1
+                            }, 500, function(){
+                                $In.find(".box:first").remove()
+                                $In.find(".box").eq(3).siblings().find(".box-in").hide().siblings(".time").html("").siblings().children().html("")
+                                InBl = true
+                            }).find(".box-in").css("padding-top", 88 - $In.find(".box").eq(4).find(".box-in").height() / 2)
+                        })
+                        $FoLi.click(function(){
+                            console.log(vm.Year)
+                            if(!InBl){
+                                return
+                            }
+                            InBl = false;
+                            var n = $(".about-fo .list li.cur").index()
+                            $(this).addClass("cur").siblings().removeClass("cur")
+                            a = $(this).index(),
+                            b = 0
+                            if($(this).index() < 5){
+                                $FoUl.stop().animate({marginLeft: 0}, 500)
+                            }
+                            if($(this).index() != 0){
+                                $(".about-fo .prev").stop().fadeIn(500);
+                            }else{
+                                $(".about-fo .prev").stop().fadeOut(500);
+                            }
+                            if($(this).index() > n){
+                                var $list = '<div class="box poa dn"><div class="time"></div><span class="logo-small">BAYES IN</span><div class="box-in dn"><p></p></div></div>'
+                                $In.find(".box").eq(0).before($list)
+                                $In.find(".box").eq(0).css({
+                                    y : -96,
+                                    scale : 0.55,
+                                    opacity : 0.4
+                                })
+                                $In.find(".box").eq(4).stop().animate({
+                                    top : 26,
+                                    opacity : 1
+                                }, 500).prev().stop().transition({
+                                    y : 0,
+                                    scale : 1,
+                                    opacity : 1
+                                }, 500).find(".box-in").stop().fadeIn(600).siblings(".time").html(vm.Year[a][b][0]).siblings().children().html(vm.Year[a][b][1])
+                                $In.find(".box").eq(3).find(".box-in").css("padding-top", 88 - $In.find(".box").eq(3).find(".box-in").height() / 2)
+                                $In.find(".box").eq(2).stop().transition({
+                                    y : -32,
+                                    scale : 0.85,
+                                    opacity : 0.8
+                                }, 500).prev().stop().transition({
+                                    y : -64,
+                                    scale : 0.7,
+                                    opacity : 0.6
+                                }, 500).prev().stop().fadeIn(500, function(){
+                                    $In.find(".box").eq(4).remove()
+                                    InBl = true
+                                })
+                            }else{
+                                var $list = '<div class="box poa fif dn"><div class="time"></div><span class="logo-small">BAYES IN</span><div class="box-in dn"><p></p></div></div>'
+                                $In.find(".box:last").after($list)
+                                $In.find(".box").eq(0).stop().fadeOut(500).next().stop().transition({
+                                    y : - 96,
+                                    scale : 0.55,
+                                    opacity : 0.4
+                                }, 500).next().stop().transition({
+                                    y : -64,
+                                    scale : 0.7,
+                                    opacity : 0.6
+                                }, 500).next().stop().transition({
+                                    y : -32,
+                                    scale : 0.85,
+                                    opacity : 0.8
+                                }, 500).next().stop().fadeIn(600).find(".box-in").stop().fadeIn(600).siblings(".time").html(vm.Year[a][b][0]).siblings().children().html(vm.Year[a][b][1])
+                                $In.find(".box").eq(4).stop().animate({
+                                    top : 0,
+                                    opacity : 1
+                                }, 500, function(){
+                                    $In.find(".box:first").remove()
+                                    $In.find(".box").eq(3).siblings().find(".box-in").hide().siblings(".time").html("").siblings().children().html("")
+                                    InBl = true
+                                }).find(".box-in").css("padding-top", 138 - $In.find(".box").eq(4).find(".box-in").height() / 2)
+                            }
+                        })
+                    })  
+
+                },
+                getWindow: function() {
+                    var vm = this;
+                    vm.elewidth = document.body.clientWidth;
+                    vm.eleheight = document.body.clientHeight;
+                },
+                move: function() {
+                    var a,b,c;
+                    a=$(window).height();	
+                    $(window).scroll(function(){		
+                        var b=$(this).scrollTop();
+                        
+                        $(".ele").each(function(){
+                            c=$(this).offset().top;							
+                            if(a+b-50>c){
+                                $(this).addClass("move");
+                            }
+                            else{
+                                $(this).removeClass("move");
+                            }
+                        });
+                    });
+                },
+                private: function(intDiff) {
+                    var vm = this;
+                    if(vm.ico_data.nowtime == 0) {
+                        intDiff = 0;
+                    }
+                    var time = setInterval(function(){
+                        var day = 0,
+                            hour = 0,
+                            minute = 0,
+                            second = 0;//时间默认值        
+                        if (intDiff > 0) {
+                            day = Math.floor(intDiff / (60 * 60 * 24));
+                            hour = Math.floor(intDiff / (60 * 60)) - (day * 24);
+                            minute = Math.floor(intDiff / 60) - (day * 24 * 60) - (hour * 60);
+                            second = Math.floor(intDiff) - (day * 24 * 60 * 60) - (hour * 60 * 60) - (minute * 60);
+                        } else {
+                            clearInterval(time);
+                            time = null;
+                            vm.timer(vm.ico_data.freeCrawDeadline - vm.ico_data.nowtime);
+                            $('.private-time').hide();
+                            $('.buy-bitcon').show();
+                        }
+                        if (day <= 9) day = '0' + day;
+                        if (hour <= 9) hour = '0' + hour;
+                        if (minute <= 9) minute = '0' + minute;
+                        if (second <= 9) second = '0' + second;
+                        $('.private-time').find('p').html(day + '天 : ' + hour + '小时 : ' + minute + '分 : ' + second + '秒');
+                        intDiff--;
+                    },1000)
+                },
+                timer: function(intDiff) {
+                    var vm = this;
+
+                    if(vm.ico_data.nowtime == 0) {
+                        intDiff = 0;
+                    }
+                    var time = window.setInterval(function () {
+                        var day = 0,
+                            hour = 0,
+                            minute = 0,
+                            second = 0;//时间默认值        
+                        if (intDiff > 0) {
+                            day = Math.floor(intDiff / (60 * 60 * 24));
+                            hour = Math.floor(intDiff / (60 * 60)) - (day * 24);
+                            minute = Math.floor(intDiff / 60) - (day * 24 * 60) - (hour * 60);
+                            second = Math.floor(intDiff) - (day * 24 * 60 * 60) - (hour * 60 * 60) - (minute * 60);
+                        } else {
+                            clearInterval(time);
+                            time = null;
+                        }
+                        if (day <= 9) day = '0' + day;
+                        if (hour <= 9) hour = '0' + hour;
+                        if (minute <= 9) minute = '0' + minute;
+                        if (second <= 9) second = '0' + second;
+                        $('.d-show').html(day);
+                        $('.h-show').html('<s id="h"></s>' + hour);
+                        $('.m-show').html('<s></s>' + minute);
+                        $('.s-show').html('<s></s>' + second);
+                        intDiff--;
+                    }, 1000);
+                },
+                contract: function(contractInstance) {
+                    var vm = this;
+
+                    // 查询合约数据 amountRaised  众筹的代币数量,单位:wei
+                    var amountRaised = contractInstance.amountRaised.call(function(error,res) {
+                        if(!error) {
+                            // console.log('amountRaised',eval("("+ web3.toBigNumber(res) +")"));
+                            vm.ico_data['amountRaised'] = eval("("+ web3.toBigNumber(res) +")") / Math.pow(10,18);
+                        }
+                    })
+                    // 查询合约数据 tokenAmountRasied  众筹的代币发行量,单位:wei
+                    var tokenAmountRasied = contractInstance.tokenAmountRasied.call(function(error,res) {
+                        if(!error) {
+                            var value = web3.toBigNumber(res) / Math.pow(10,18);
+                            value = value.toFixed(0);
+                            vm.ico_data['tokenAmountRasied'] = value;
+                        }
+                    })
+                    
+                    //查询合约数据 maxGoal 众筹最大目标,单位eth
+                    var maxGoal = contractInstance.maxGoal.call(function(error, res){
+                        if (!error) {
+                            // console.log('maxGoal',eval("("+res+")"));
+                            vm.ico_data['maxGoal'] = eval("("+res+")") / Math.pow(10,18);
+                            // console.log('amountRaised',vm.ico_data.amountRaised)
+                            // console.log('maxGoal',vm.ico_data.maxGoal)
+                            vm.rate = (vm.ico_data.amountRaised / vm.ico_data.maxGoal) * 100;
+
+                            /*// 进度条
+                            var time = setInterval(() => {
+                                if(vm.rate > 0) {
+                                    vm.rate = vm.rate -1;
+                                    vm.width += 1;
+                                } else {
+                                    clearInterval(time);
+                                    time = null;
+                                }
+                            },10);*/
+                        }
+                    })
+                    //查询合约数据 minGoal 众筹最小目标,单位eth
+                    var minGoal = contractInstance.minGoal.call(function(error, res){
+                        if (!error) {
+                            // console.log('minGoal',eval("("+res+")") / Math.pow(10,18));
+                            vm.ico_data['minGoal'] = eval("("+res+")") / Math.pow(10,18);
+                        }
+                    })
+
+                    
+                    /*//查询合约数据 bonus01End 第一阶段加成的区间最大值
+                    var bonus01End = contractInstance.bonus01End.call(function(error, res){
+                        if (!error) {
+                            console.log('bonus01End',eval("("+res+")") / Math.pow(10,18));
+                            vm.ico_data['bonus01End'] = eval("("+res+")") / Math.pow(10,18);
+                            if(vm.ico_data['amountRaised'] <= vm.ico_data['bonus01End']) {
+                                //查询合约数据  bonus01 第一阶段加成比例
+                                var bonus01 = contractInstance.bonus01.call(function(error, res){
+                                    if (!error) {
+                                        console.log('bonus01',eval("("+res+")"));
+                                        vm.ico_data['bonus01'] = eval("("+res+")");
+                                        vm.bouns_rate = vm.ico_data['bonus01'];
+                                    }
+                                })
+
+                            } else {
+                                //查询合约数据  bonus02 第一阶段加成比例
+                                var bonus02 = contractInstance.bonus02.call(function(error, res){
+                                    if (!error) {
+                                        // console.log('bonus02',eval("("+res+")"));
+                                        vm.ico_data['bonus02'] = eval("("+res+")");
+                                        vm.bouns_rate = vm.ico_data['bonus02'];
+                                    }
+                                })  
+                            }
+                        }
+                    })*/
+                   
+                    //查询合约数据 bonus 当前区间加成值
+                    var bonus = contractInstance.bonus.call(function(error, res){
+                        if (!error) {
+                            // console.log('bonus',eval("("+res+")"));
+                            vm.ico_data['bonus'] = eval("("+res+")");
+                            vm.bouns_rate = eval("("+res+")");
+                        }
+                    })
+
+                    //查询合约数据 symbol 代币符号
+                    var symbol = contractInstance.symbol.call(function(error, res){
+                        if (!error) {
+                            // console.log('symbol',res);
+                        }
+                    })
+
+                    //查询合约数据  crowdsaleClosed 众筹是否关闭
+                    var  crowdsaleClosed = contractInstance. crowdsaleClosed.call(function(error, res){
+                        if (!error) {
+                            // console.log('crowdsaleClosed',res);
+                            vm.ico_data['crowdsaleClosed'] = res;
+                        }
+                    })
+
+                    //查询合约数据 fundingGoalReached 众筹目标是否达到
+                    var fundingGoalReached = contractInstance.fundingGoalReached.call(function(error, res){
+                        if (!error) {
+                            // console.log('fundingGoalReached',res);
+                            vm.ico_data['fundingGoalReached'] = res;
+                        }
+                    })
+                }
+            },
+            mounted() {
+                var vm = this;
+                console.log(vm.datas)
+                vm.move();
+                setInterval(vm.getWindow,1000);
+                vm.Year = [ 
+                         [ 
+                                [vm.datas.road_map.map_list[0].year, vm.datas.road_map.map_list[0].des]
+                         ], 
+                         [ 
+                                [vm.datas.road_map.map_list[1].year, vm.datas.road_map.map_list[1].des]
+                         ],
+                         [ 
+                                [vm.datas.road_map.map_list[2].year, vm.datas.road_map.map_list[2].des]
+                         ],
+                         [ 
+                                [vm.datas.road_map.map_list[3].year, vm.datas.road_map.map_list[3].des]
+                         ],
+                         [ 
+                                [vm.datas.road_map.map_list[4].year, vm.datas.road_map.map_list[4].des]
+                         ],
+                         [ 
+                                [vm.datas.road_map.map_list[5].year, vm.datas.road_map.map_list[5].des]
+                         ],
+                         [ 
+                                [vm.datas.road_map.map_list[6].year, vm.datas.road_map.map_list[6].des]
+                         ],
+                         [ 
+                                [vm.datas.road_map.map_list[7].year, vm.datas.road_map.map_list[7].des]
+                         ],
+                         [ 
+                                [vm.datas.road_map.map_list[8].year, vm.datas.road_map.map_list[8].des]
+                         ],
+                         [ 
+                                [vm.datas.road_map.map_list[9].year, vm.datas.road_map.map_list[9].des]
+                         ],
+                         [ 
+                                [vm.datas.road_map.map_list[10].year, vm.datas.road_map.map_list[10].des]
+                         ],
+                         [ 
+                                [vm.datas.road_map.map_list[11].year, vm.datas.road_map.map_list[11].des]
+                         ]    
+                    ]
+
+                vm.renderMap();
+
+                // 语言
+                $('.lang li').click(function() {
+                    var id = $(this).attr('id');
+                    var html = $(this).html();
+                    switch (id) {
+                        case 'en':
+                            $('.lang span').html(html);
+                            $('body').addClass('en');
+                            location.href = "index.html";
+                            break;
+                        case 'hy':
+                            $('.lang span').html(html);
+                            $('body').addClass('hy');
+                            location.href = "index_hy.html";
+                            break;
+                        case 'ry':
+                            $('.lang span').html(html);
+                            $('body').addClass('ry');
+                            location.href = "index_ry.html";
+                            break;
+                        case 'ey':
+                            $('.lang span').html(html);
+                            $('body').addClass('ey');
+                            location.href = "index_ey.html";
+                            break;
+                        case 'xy':
+                            $('.lang span').html(html);
+                            $('body').addClass('xy');
+                            location.href = "index_xy.html";
+                            break;
+                        case 'ch':
+                            $('.lang span').html(html);
+                            $('body').addClass('ch');
+                            location.href = "index_ch.html";
+                            break;
+                        case 'ch_f':
+                            $('.lang span').html(html);
+                            $('body').addClass('ch_f');
+                            location.href = "index_chf.html";
+                            break;
+                        case 'py':
+                            $('.lang span').html(html);
+                            $('body').addClass('py');
+                            location.href = "index_py.html";
+                            break;
+                        case 'jp':
+                            $('.lang span').html(html);
+                            $('body').addClass('jp');
+                            location.href = "index_jp.html";
+                            break;
+                        
+                    }
+                })
+               
+
+                var target = document.querySelector(".target");
+                var links = document.querySelectorAll(".nav-list a");
+
+                 function mouseenterFunc() {
+                    if (!this.parentNode.classList.contains("active")) {
+                        for (var i = 0; i < links.length; i++) {
+                            if (links[i].parentNode.classList.contains("active")) {
+                                links[i].parentNode.classList.remove("active");
+                            }
+                        }
+
+                        this.parentNode.classList.add("active");
+
+                        var width = this.getBoundingClientRect().width;
+                        var height = this.getBoundingClientRect().height;
+                        var left = this.getBoundingClientRect().left + window.pageXOffset;
+                        var top = this.getBoundingClientRect().top;
+                        var color = "#c71b1b";
+
+                        target.style.width = width + "px";
+                        target.style.height = height + "px";
+                        target.style.left = left + "px";
+                        target.style.top = top + "px";
+                        target.style.borderColor = color;
+                        target.style.transform = "none";
+                    }
+                }
+
+                for (var i = 0; i < links.length; i++) {
+                    links[i].addEventListener("click", function (e) {
+                        return e.preventDefault();
+                    });
+                    links[i].addEventListener("mouseenter", mouseenterFunc);
+                    links[i].addEventListener("mouseleave", function() {
+                        this.parentNode.classList.remove("active");
+                        target.style.borderColor = "transparent";
+                    });
+                }
+
+                function resizeFunc() {
+                    var active = document.querySelector(".nav-list li.active");
+
+                    if (active) {
+                    var left = active.getBoundingClientRect().left + window.pageXOffset;
+                    var top = active.getBoundingClientRect().top + window.pageYOffset;
+
+                    target.style.left = left + "px";
+                    target.style.top = top + "px";
+                    }
+                }
+
+                window.addEventListener("resize", resizeFunc);
+                
+                // 获取合约数据
+                if (typeof web3 !== 'undefined') {                            
+                    // Use the Mist/wallet provider.                            
+                    // console.log(web3.currentProvider)               
+                    window.web3 = new Web3(web3.currentProvider);
+                } else {                                                      
+                    // Use the provider from the config.                        
+                    window.web3 = new Web3(new Web3.providers.HttpProvider('https://mainnet.infura.io/0rBNkNJthXDWDNrQeweR')); 
+                } 
+                 
+
+                var MyContract = web3.eth.contract(vm.abi);
+                var contractInstance = MyContract.at(vm.address);
+                vm.contract(contractInstance);
+
+                var networkID  = web3.version.getNetwork(function(error,result) {
+                    if(!error) {
+                        if(result == 42) {
+                            
+                            $('header').css({'padding-top':'30px','height': '130px'});
+                            $('body').find('.top-notice').show().find('p').html(vm.datas.topic_notice[0]);
+                            
+                        } else if (result == 1) {
+                            $('header').css({'padding-top':'30px','height': '130px'});
+                            $('body').find('.top-notice').show().find('p').html(vm.datas.topic_notice[1]);
+                        }
+                    }
+                })
+                
+                //查询合约数据 perDeadLine 
+                var freeCrawDeadline = contractInstance.perDeadLine.call(function(error,res) {
+                    if(!error) {
+                        // console.log('perDeadLine',eval("("+res+")"));
+                        vm.ico_data['perDeadLine'] = eval("("+res+")");
+                        vm.private(vm.ico_data.perDeadLine - vm.ico_data.nowtime);
+                    }
+                })
+                
+                //查询合约数据 freeCrawDeadline  冻结帐号的结束时间
+                var freeCrawDeadline = contractInstance.freeCrawDeadline.call(function(error,res) {
+                    if(!error) {
+                        // console.log('freeCrawDeadline',eval("("+res+")"));
+                        vm.ico_data['freeCrawDeadline'] = eval("("+res+")");
+                        
+                    }
+                })
+
+                //查询合约数据 price 价格
+                var price = contractInstance.price.call(function(error, res){
+                    if (!error) {
+                        // console.log('price',eval("("+res+")"));
+                        vm.ico_data['price'] = eval("("+res+")");
+                        if(vm.ETH_USD > 0) {
+                            vm.BYS_USD = (vm.ETH_USD / vm.ico_data['price']).toFixed(3);
+                        }
+                    }
+                })
+
+                
+                //监听合约中的 Transfer 事件  有交易时会触发
+                
+                var Transfer_Event = contractInstance.Transfer();
+
+                Transfer_Event.watch(function(error,result) {
+                    if(!error) {
+                        console.log('transfer:',result);
+                        vm.contract(contractInstance);
+                    }
+                });
+
+                //路线图
+                
+
+                // 视频
+                var video=document.getElementById("video");
+                $('body').on('click','.video-btn',function() {
+                    $('.video-mask').show();
+                    if(video.paused){
+                        video.play();
+                    }
+                })
+                $('body').on('click','.close-btn',function() {
+                     video.pause();
+                    $(this).parents('.video-mask').hide();
+                    $(this).parents('.team-mask').hide();
+                })
+
+                // 人物介绍
+                // $('body').on('click','.team li',function() {
+                //     $('.team-mask').show();
+                //     $('.team-mask').find('p').html($(this).find('p.zw').html());
+                // })
+
+                $('body').on('click','.top-close',function() {
+                    $('body').find('.top-notice').hide();
+                    $('header').css({'padding-top':'0','height':'100px'});
+                })
+
+                // 代币分配和零售
+                $('.pie-chart li').hover(function() {
+                    var o = $(this);
+                    var id= o.attr('id');
+                    o.addClass('active').siblings().removeClass('active');;
+                    $('.show-intro').find('h4').html(vm.datas.ico_section.chart[id].title);
+                    $('.show-intro').find('p').html(vm.datas.ico_section.chart[id].des);
+                },function() {
+                    var o = $(this);
+                    
+                })
+
+                // 导航栏 
+                $('#menu li').click(function() {
+                   var id= $(this).children().attr('href');
+                   $('html, body').animate({scrollTop: $(id).offset().top - 150}, 1000) 
+                })
+            }
+        });
+        new Vue({
+            el: '#app',
+        });
+    </script>
+</body>
+
+</html>

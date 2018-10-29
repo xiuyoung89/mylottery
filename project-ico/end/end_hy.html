@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <title>end</title>
+    <meta name="description" content="description">
+    <meta name="keywords" content="keywords">
+    <link rel="stylesheet" href="/dist/css/common.css">
+    <link rel="stylesheet" href="/dist/css/index_pro.css">
+</head>
+<body class="dapp">
+    <div id="app" style="height: 100%;">
+        <app-component></app-component>
+    </div>
+    <script id="app-template" type="text/x-template">
+        <div style="height: 100%;">
+            <div class="end-content">
+                <header>
+                    <div class="content">
+                        <div class="logo">
+                            <a href="/"></a>
+                        </div>
+                        <div class="nav">
+                            <ul class="nav-list" id="menu">
+                                <li><a href="/">Back</a></li>
+                            </ul>
+                            <div class="lang">
+                                <span>한국어</span>
+                                <ul>
+                                    <li id="en">English</li>
+                                    <li id="jp">កម្ពុជា</li>
+                                    <li id="hy">한국어</li>
+                                    <li id="ry">日本語</li>
+                                    <li id="ey">русский язык</li>
+                                    <li id="xy">El español</li>
+                                    <li id="ch">简体中文</li>
+                                    <li id="ch_f">繁體中文</li>
+                                    <li id="py">Português</li>
+                                </ul>
+                            </div>
+                        </div>  
+                    </div> 
+                </header>
+                <div class="end-box">
+                    <div class="content-box">
+                        <div class="welcome-header">
+                            <h2>THE</h2>
+                            <P>COUNTDOWN</P>
+                            <h1>ICO START</h1>
+                        </div>
+                        <hr>
+                        <div class="box1" >
+                            <p class="text-title">{{ datas.e_t_1 }}</p>
+                            <p style="text-align: left;">{{ datas.e_t_2 }}</p>
+                            <form action="">
+                                <div class="input-box">
+                                    <label for="">{{ datas.e_t_3 }}</label>
+                                    <p><span class="radio-btn active"></span>{{ datas.e_t_4[0] }}</p>
+                                    <p><span class="radio-btn"></span>{{ datas.e_t_4[1] }}</p>    
+                                </div>
+                                <div class="input-box">
+                                    <label for="">{{ datas.e_t_5 }}</label>
+                                    <input type="text">
+                                </div>
+                                <div class="input-box">
+                                    <label for="">{{ datas.e_t_6 }}</label>
+                                    <textarea name="" id="">
+    
+                                    </textarea>
+                                </div>
+                                <div class="input-box">
+                                    <label for="">{{ datas.e_t_7 }}</label>
+                                    <input type="email">
+                                </div>
+                            </form>
+                            <div class="buy-box">
+                                <a class="sub-btn">{{ datas.e_t_8 }}</a>
+                            </div>
+                        </div>
+                        <div class="box2" style="display: none;">
+                            <p class="text-title">{{ datas.e_t_1 }}</p>
+                            <p style="text-align: left;">{{ datas.e_t_2 }}</p>
+                            <div class="notice-box">
+                                <a class="back-btn">{{ datas.e_t_9 }}</a>
+                            </div>
+                        </div>
+                        
+                    </div>
+                </div>
+            </div>
+        </div>
+    </script>
+    <script src="/dist/js/language.js"></script>
+    <script src="/dist/js/jquery.min.js"></script>
+    <script src="/dist/js/vue.min.js"></script>
+    <script src="/dist/js/common.js"></script>
+
+    <script>
+        Vue.component('app-component', {
+            template: '#app-template',
+            data() {
+                return {
+                    datas: lang_data.hy.end_form,
+                }
+            },
+            created() {
+                var vm = this;
+            },
+            watch: {},
+            methods: {
+                
+            },
+            mounted() {
+                var vm = this;
+                $('.radio-btn').click(function() {
+                    var o = $(this);
+                    if(!o.hasClass('active')) {
+                        o.addClass('active').parent().siblings().children().removeClass('active');
+                    }
+                })
+                $('.sub-btn').click(function() {
+                    $('.box1').hide().siblings('.box2').show();
+                })
+                $('.back-btn').click(function() {
+                    $('.box2').hide().siblings('.box1').show();
+
+                })
+
+                // 语言
+                $('.lang li').click(function() {
+                    var id = $(this).attr('id');
+                    var html = $(this).html();
+                    switch (id) {
+                        case 'en':
+                            $('.lang span').html(html);
+                            $('body').addClass('en');
+                            location.href = "end.html";
+                            break;
+                        case 'hy':
+                            $('.lang span').html(html);
+                            $('body').addClass('hy');
+                            location.href = "end_hy.html";
+                            break;
+                        case 'ry':
+                            $('.lang span').html(html);
+                            $('body').addClass('ry');
+                            location.href = "end_ry.html";
+                            break;
+                        case 'ey':
+                            $('.lang span').html(html);
+                            $('body').addClass('ey');
+                            location.href = "end_ey.html";
+                            break;
+                        case 'xy':
+                            $('.lang span').html(html);
+                            $('body').addClass('xy');
+                            location.href = "end_xy.html";
+                            break;
+                        case 'ch':
+                            $('.lang span').html(html);
+                            $('body').addClass('ch');
+                            location.href = "end_ch.html";
+                            break;
+                        case 'ch_f':
+                            $('.lang span').html(html);
+                            $('body').addClass('ch_f');
+                            location.href = "end_chf.html";
+                            break;
+                        case 'py':
+                            $('.lang span').html(html);
+                            $('body').addClass('py');
+                            location.href = "end_py.html";
+                            break;
+                        case 'jp':
+                            $('.lang span').html(html);
+                            $('body').addClass('jp');
+                            location.href = "end_jp.html";
+                            break;
+                    }
+                })
+            }
+        });
+        new Vue({
+            el: '#app',
+        });
+    </script>
+</body>
+
+</html>
